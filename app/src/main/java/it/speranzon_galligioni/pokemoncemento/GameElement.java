@@ -4,8 +4,8 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.widget.RelativeLayout;
 
-public class Entity extends AppCompatImageView {
-    public Entity(Context context, int x, int y, int height, int width, int image) {
+public class GameElement extends AppCompatImageView {
+    public GameElement(Context context, int x, int y, int height, int width, int image) {
         super(context);
         setLayoutParams(new RelativeLayout.LayoutParams(width * GameCostants.BOX_SIZE, height * GameCostants.BOX_SIZE));
         setImageDrawable(context.getDrawable(image));

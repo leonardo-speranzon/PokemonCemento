@@ -1,5 +1,6 @@
 package it.speranzon_galligioni.pokemoncemento;
 
+import android.annotation.SuppressLint;
 import android.content.res.XmlResourceParser;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -7,9 +8,11 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -22,10 +25,11 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
-    private Button up, down, left, right;
+    private View up, down, left, right;
     private Game game;
     private ConstraintLayout root;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +73,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         game = readXmlAndCreate(R.id.map_container, R.id.map, R.xml.map_severi);
 
         hideSystemUI();
     }
 
     public void move(Direction d) {
-        Log.d("PROVA", "mW: " + game.getWidth() / GameCostants.BOX_SIZE + "  mH: " + game.getHeight() / GameCostants.BOX_SIZE);
+        //Log.d("PROVA", "mW: " + game.getWidth() / GameCostants.BOX_SIZE + "  mH: " + game.getHeight() / GameCostants.BOX_SIZE);
         //Log.d("PROVA","Bordi: "+!game.checkMapBounds(d) +"  Collisioni: "+game.checkCollisions(d));
         if (!game.checkMapBounds(d))
             return;
