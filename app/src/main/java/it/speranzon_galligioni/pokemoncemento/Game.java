@@ -1,27 +1,37 @@
 package it.speranzon_galligioni.pokemoncemento;
 
+import android.animation.Animator;
+import android.content.Context;
+import android.os.Handler;
+import android.util.Log;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 public class Game {
+    Context context;
     RelativeLayout map;
     List<Obstacle> obstacles;
     Player player;
+    Direction currentDirection;
+    Handler handler;
+    boolean isMoving, mustMove;
 
-    public Game(RelativeLayout map, int height, int width, Player player) {
-        this(map, height, width, new ArrayList<Obstacle>(), player);
+    public Game(RelativeLayout map, int height, int width, Player player,Context context) {
+        this(map, height, width, new ArrayList<Obstacle>(), player,context);
     }
 
-    public Game(RelativeLayout map, int height, int width, List<Obstacle> obstacles, Player player) {
-        this(map, height, width, 0, 0, new ArrayList<Obstacle>(), player);
+    public Game(RelativeLayout map, int height, int width, List<Obstacle> obstacles, Player player,Context context) {
+        this(map, height, width, 0, 0, new ArrayList<Obstacle>(), player,context);
     }
 
-    public Game(RelativeLayout map, int height, int width, int playerInitX, int playerInitY, List<Obstacle> obstacles, Player player) {
+    public Game(RelativeLayout map, int height, int width, int playerInitX, int playerInitY, List<Obstacle> obstacles, Player player,Context context) {
         this.obstacles = new ArrayList<>(obstacles);
         this.player = player;
         this.map = map;
+        this.context=context;
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) map.getLayoutParams();
         lp.height = GameCostants.BOX_SIZE * height;
         lp.width = GameCostants.BOX_SIZE * width;
@@ -32,17 +42,94 @@ public class Game {
         //Log.d("PROVA","h: "+ mapHeight +", w: "+mapWidth+", lm: "+ lpC.leftMargin/GameCostants.BOX_SIZE +", rm: "+(mcWidth-mapWidth-lpM.leftMargin/GameCostants.BOX_SIZE)+", tm: "+ lpC.topMargin/GameCostants.BOX_SIZE +", bm: "+(mcHeight-mapHeight-lpM.topMargin/GameCostants.BOX_SIZE));
         map.setLayoutParams(lp);
 
+        handler = new Handler();
+        currentDirection = Direction.NONE;
 
         for (Obstacle obs : obstacles)
             map.addView(obs);
     }
 
+    /**
+     * inizia lo spostamento del Player
+     * @param d direzione dello spostamento
+     */
+    public void startMove(final Direction d) {
+
+        if (currentDirection == Direction.NONE) {
+
+            //Log.d("PROVA", "INIZIO : " + d.toString());
+            mustMove = true;
+            currentDirection = d;
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (!move())
+                        handler.postDelayed(this, 100);
+                }
+            }, 0);
+        }
+    }
+
+
+    /**
+     * ferma lo spostamento del Player
+     * @param d direzione dello spostamento
+     */
+    public void stopMove(Direction d) {
+        if (currentDirection == d) {
+            //Log.d("PROVA", "FINE   : " + d.toString());
+            mustMove = false;
+            currentDirection = Direction.NONE;
+        }
+    }
+
+    /**
+     * Muove il Player se esso è possibile
+     * @return ritorna falso se il movimento precedente non è ancora terinato
+     *          !!QUANDO RITORNA TRUE NON VUOL DIRE CHE IL MOVIMENTO E' AVVENUTO!!
+     */
+    public boolean move() {
+        //Log.d("PROVA", "mW: " + game.getWidth() / GameCostants.BOX_SIZE + "  mH: " + game.getHeight() / GameCostants.BOX_SIZE);
+        //Log.d("PROVA","Bordi: "+!game.checkMapBounds(d) +"  Collisioni: "+game.checkCollisions(d));
+        //Log.d("PROVA", "R-MOSSO: " + currentDirection.toString());
+
+        //controlla se vi deve essere un movimento
+        if (!mustMove)
+            return true;
+        //controlla che non si stia già muovendo
+        if (isMoving)
+            return false;
+
+        //controlla che il Player non esca dalla mappa
+        if (!checkMapBounds(currentDirection))
+            return true;
+        //controlla che il Player non entri in un ostacolo
+        if (checkCollisions(currentDirection))
+            return true;
+
+        //Log.d("PROVA", "MOSSO  : " + currentDirection.toString());
+        movePlayer(currentDirection);
+        return true;
+
+    }
+
+    /**
+     * Aggiunge un ostacolo alla mappa
+     * @param obs ostacolo
+     * @return aggiunta avvenuta con successo
+     */
     public boolean addObstacles(Obstacle obs) {
+        //TODO: aggiungere un controllo sulla posizione degli ostacoli
         map.addView(obs);
         obstacles.add(obs);
         return true;
     }
 
+    /**
+     * controlla se nella voluta direzione lo spostamento è impedito da ostacoli
+     * @param direction direzione voluta
+     * @return collisione presente
+     */
     public boolean checkCollisions(Direction direction) {
         int moveX = (int) (getX() + direction.getX());
         int moveY = (int) (getY() + direction.getY());
@@ -52,6 +139,11 @@ public class Game {
         return false;
     }
 
+    /**
+     * controlla che nella voluta direzione il Player non esca dalla mappa
+     * @param direction direzione voluta
+     * @return movimento valido
+     */
     public boolean checkMapBounds(Direction direction) {
         int moveX = (int) (getX() + direction.getX());
         int moveY = (int) (getY() + direction.getY());
@@ -60,9 +152,50 @@ public class Game {
                 && moveY <= player.getY() && moveY + map.getHeight() >= player.getY() + 1);
     }
 
-    public void movePlayer(Direction direction) {
-        map.setX(map.getX() + direction.getX() * GameCostants.BOX_SIZE);
-        map.setY(map.getY() + direction.getY() * GameCostants.BOX_SIZE);
+    /**
+     * muove il Player nella voluta direzione(con animazione)
+     * @param direction direzione del movimento
+     */
+    private void movePlayer(final Direction direction) {
+        map.animate()
+                .translationXBy(direction.getX() * GameCostants.BOX_SIZE)
+                .translationYBy(direction.getY() * GameCostants.BOX_SIZE)
+                .setDuration(500)
+                .setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        isMoving = true;
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        isMoving = false;
+                        move();
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+                    }
+                })
+                .start();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                player.setImageDrawable(context.getDrawable(R.drawable.man_3));
+            }
+        },125);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                player.setImageDrawable(context.getDrawable(R.drawable.man_2));
+            }
+        },375);
+        //map.setX(map.getX() + direction.getX() * GameCostants.BOX_SIZE);
+        //map.setY(map.getY() + direction.getY() * GameCostants.BOX_SIZE);
     }
 
     public float getX() {

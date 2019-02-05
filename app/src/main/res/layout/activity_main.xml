@@ -95,7 +95,7 @@
         android:layout_marginBottom="92dp"
         android:background="@drawable/button_ab"
         android:text="A"
-        android:textColor="#b111"
+        android:textColor="@color/colorControllerOut"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -110,7 +110,7 @@
         android:layout_marginBottom="32dp"
         android:background="@drawable/button_ab"
         android:text="B"
-        android:textColor="#b111"
+        android:textColor="@color/colorControllerOut"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

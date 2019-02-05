@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,30 +49,59 @@ public class MainActivity extends AppCompatActivity {
         right = findViewById(R.id.cmd_right);
         root = findViewById(R.id.root);
 
-        up.setOnClickListener(new View.OnClickListener() {
+        up.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                move(Direction.UP);
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        game.startMove(Direction.UP);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        game.stopMove(Direction.UP);
+                }
+                return true;
             }
         });
-        down.setOnClickListener(new View.OnClickListener() {
+        down.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                move(Direction.DOWN);
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        game.startMove(Direction.DOWN);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        game.stopMove(Direction.DOWN);
+                }
+                return true;
             }
         });
-        left.setOnClickListener(new View.OnClickListener() {
+        left.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                move(Direction.LEFT);
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        game.startMove(Direction.LEFT);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        game.stopMove(Direction.LEFT);
+                }
+                return true;
             }
         });
-        right.setOnClickListener(new View.OnClickListener() {
+        right.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                move(Direction.RIGHT);
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        game.startMove(Direction.RIGHT);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        game.stopMove(Direction.RIGHT);
+                }
+                return true;
             }
         });
+
 
 
 
@@ -80,17 +110,7 @@ public class MainActivity extends AppCompatActivity {
         hideSystemUI();
     }
 
-    public void move(Direction d) {
-        //Log.d("PROVA", "mW: " + game.getWidth() / GameCostants.BOX_SIZE + "  mH: " + game.getHeight() / GameCostants.BOX_SIZE);
-        //Log.d("PROVA","Bordi: "+!game.checkMapBounds(d) +"  Collisioni: "+game.checkCollisions(d));
-        if (!game.checkMapBounds(d))
-            return;
-        if (game.checkCollisions(d))
-            return;
 
-        game.movePlayer(d);
-
-    }
 
 
     private void hideSystemUI() {
@@ -98,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         onWindowFocusChanged(true);
     }
+
 
     public Game readXmlAndCreate(int mapContainerId, int mapId, int xmlMapFile) {
 
@@ -154,7 +175,10 @@ public class MainActivity extends AppCompatActivity {
             mcWidth--;
         lpMc.height = mcHeight * GameCostants.BOX_SIZE;
         lpMc.width = mcWidth * GameCostants.BOX_SIZE;
+        lpMc.topMargin=(screenSize.y-mcHeight*GameCostants.BOX_SIZE)/2;
+        lpMc.leftMargin=(screenSize.x-mcWidth*GameCostants.BOX_SIZE)/2;
         mapContainerL.setLayoutParams(lpMc);
+
 
         Player p = new Player(this, mcWidth / 2, mcHeight / 2);
         mapContainerL.addView(p);
@@ -163,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
         lpP.leftMargin = mapContainerL.getHeight() / 2;
         p.setLayoutParams(lpP);
 
-        Game game = new Game(mapL, mapHeight, mapWidth, playerStartX, playerStartY, obstacles, p);
+        Game game = new Game(mapL, mapHeight, mapWidth, playerStartX, playerStartY, obstacles, p,this);
         return game;
     }
 }
