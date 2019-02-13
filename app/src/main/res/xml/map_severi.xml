@@ -57,4 +57,9 @@
         h="1"
         type="WALL"
         />
+    <trainer
+        x="4"
+        y="2"
+        direction="RIGHT"
+        />
 </map>

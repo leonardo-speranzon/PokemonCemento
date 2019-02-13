@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
         game = readXmlAndCreate(R.id.map_container, R.id.map, R.xml.map_severi);
 
         hideSystemUI();
@@ -123,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
     public Game readXmlAndCreate(int mapContainerId, int mapId, int xmlMapFile) {
 
         List<Obstacle> obstacles = new ArrayList<>();
+        List<Trainer> trainers = new ArrayList<>();
         RelativeLayout mapContainerL = findViewById(mapContainerId);
         RelativeLayout mapL = findViewById(mapId);
 
@@ -152,6 +152,11 @@ public class MainActivity extends AppCompatActivity {
                         else
                             obstacles.add(new Obstacle(this, x, y, h, w, ObstacleTypes.valueOf(type)));
 
+                    }else if(xpp.getName().equals("trainer")){
+                        int x = xpp.getAttributeIntValue(null, "x", 0);
+                        int y = xpp.getAttributeIntValue(null, "y", 0);
+                        String dir = xpp.getAttributeValue(null, "direction");
+                        trainers.add(new Trainer(this, x, y, Direction.valueOf(dir)));
                     }
                 }
                 eventType = xpp.next();
@@ -187,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
         lpP.leftMargin = mapContainerL.getHeight() / 2;
         p.setLayoutParams(lpP);
 
-        Game game = new Game(mapL, mapHeight, mapWidth, playerStartX, playerStartY, obstacles, p,this);
+        Game game = new Game(mapL, mapHeight, mapWidth, playerStartX, playerStartY, obstacles,trainers, p,this);
         return game;
     }
 }

@@ -14,21 +14,23 @@ public class Game {
     Context context;
     RelativeLayout map;
     List<Obstacle> obstacles;
+    List<Trainer> trainers;
     Player player;
     Direction currentDirection;
     Handler handler;
     boolean isMoving, mustMove;
 
     public Game(RelativeLayout map, int height, int width, Player player,Context context) {
-        this(map, height, width, new ArrayList<Obstacle>(), player,context);
+        this(map, height, width, new ArrayList<Obstacle>(),new ArrayList<Trainer>(), player,context);
     }
 
-    public Game(RelativeLayout map, int height, int width, List<Obstacle> obstacles, Player player,Context context) {
-        this(map, height, width, 0, 0, new ArrayList<Obstacle>(), player,context);
+    public Game(RelativeLayout map, int height, int width, List<Obstacle> obstacles,List<Trainer> trainers, Player player,Context context) {
+        this(map, height, width, 0, 0, new ArrayList<Obstacle>(),trainers, player,context);
     }
 
-    public Game(RelativeLayout map, int height, int width, int playerInitX, int playerInitY, List<Obstacle> obstacles, Player player,Context context) {
+    public Game(RelativeLayout map, int height, int width, int playerInitX, int playerInitY, List<Obstacle> obstacles,List<Trainer> trainers, Player player,Context context) {
         this.obstacles = new ArrayList<>(obstacles);
+        this.trainers = new ArrayList<>(trainers);
         this.player = player;
         this.map = map;
         this.context=context;
@@ -47,6 +49,8 @@ public class Game {
 
         for (Obstacle obs : obstacles)
             map.addView(obs);
+        for(Trainer t:trainers)
+            map.addView(t);
     }
 
     /**
@@ -103,10 +107,13 @@ public class Game {
         //controlla che il Player non esca dalla mappa
         if (!checkMapBounds(currentDirection))
             return true;
-        //controlla che il Player non entri in un ostacolo
+        //controlla che il Player non entri in un ostacolo o allenatore
         if (checkCollisions(currentDirection))
             return true;
-
+        //controlla che il Player non venga visto dagli altri allenatori
+        if (checkTrainer(currentDirection)) {
+            Log.d("PROVA","allenatoreeeeee");
+        }
         //Log.d("PROVA", "MOSSO  : " + currentDirection.toString());
         movePlayer(currentDirection);
         return true;
@@ -131,10 +138,22 @@ public class Game {
      * @return collisione presente
      */
     public boolean checkCollisions(Direction direction) {
-        int moveX = (int) (getX() + direction.getX());
-        int moveY = (int) (getY() + direction.getY());
+        int moveX = (int) (getX() + -direction.getX());
+        int moveY = (int) (getY() + -direction.getY());
         for (Obstacle obs : obstacles)
             if (obs.checkCollision(player, moveX, moveY))
+                return true;
+        for (Trainer t : trainers)
+            if (t.checkCollision(player, moveX, moveY))
+                return true;
+        return false;
+    }
+
+    public boolean checkTrainer(Direction direction){
+        int moveX = (int) (getX() + -direction.getX());
+        int moveY = (int) (getY() + -direction.getY());
+        for(Trainer t:trainers)
+            if(t.tihavistomannagiaallaputtana(player,moveX,moveY))
                 return true;
         return false;
     }
@@ -145,8 +164,8 @@ public class Game {
      * @return movimento valido
      */
     public boolean checkMapBounds(Direction direction) {
-        int moveX = (int) (getX() + direction.getX());
-        int moveY = (int) (getY() + direction.getY());
+        int moveX = (int) (getX() + -direction.getX());
+        int moveY = (int) (getY() + -direction.getY());
         //Log.d("BORDI","playerX: "+player.getX()+", playerY: "+player.getY()+", moveX: "+moveX+", moveY: "+moveY+", Direction: "+direction);
         return (moveX <= player.getX() && moveX + map.getWidth() >= player.getX() + 1
                 && moveY <= player.getY() && moveY + map.getHeight() >= player.getY() + 1);
@@ -158,8 +177,8 @@ public class Game {
      */
     private void movePlayer(final Direction direction) {
         map.animate()
-                .translationXBy(direction.getX() * GameCostants.BOX_SIZE)
-                .translationYBy(direction.getY() * GameCostants.BOX_SIZE)
+                .translationXBy(-direction.getX() * GameCostants.BOX_SIZE)
+                .translationYBy(-direction.getY() * GameCostants.BOX_SIZE)
                 .setDuration(500)
                 .setListener(new Animator.AnimatorListener() {
                     @Override
