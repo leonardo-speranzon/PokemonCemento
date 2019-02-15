@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private View up, down, left, right;
     private Game game;
-    private ConstraintLayout root;
+    private ConstraintLayout root, joystick;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -47,58 +47,32 @@ public class MainActivity extends AppCompatActivity {
         down = findViewById(R.id.cmd_down);
         left = findViewById(R.id.cmd_left);
         right = findViewById(R.id.cmd_right);
+        joystick = findViewById(R.id.joystick);
         root = findViewById(R.id.root);
 
-        up.setOnTouchListener(new View.OnTouchListener() {
+        joystick.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                Direction dir=getDirectionJoystick(event);
+                if(dir==Direction.NONE && game.getCurrentDirection()!=Direction.NONE){
+                    game.stopMove(game.getCurrentDirection());
+                    return true;
+                }
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        game.startMove(Direction.UP);
-                        break;
+                        game.startMove(dir);
+                        return true;
+                    case MotionEvent.ACTION_MOVE:
+                        if(game.getCurrentDirection()!=dir){
+                            game.stopMove(game.getCurrentDirection());
+                            game.startMove(dir);
+                        }
+                        return true;
                     case MotionEvent.ACTION_UP:
-                        game.stopMove(Direction.UP);
+                        game.stopMove(dir);
+                        return true;
                 }
-                return true;
-            }
-        });
-        down.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        game.startMove(Direction.DOWN);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        game.stopMove(Direction.DOWN);
-                }
-                return true;
-            }
-        });
-        left.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        game.startMove(Direction.LEFT);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        game.stopMove(Direction.LEFT);
-                }
-                return true;
-            }
-        });
-        right.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        game.startMove(Direction.RIGHT);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        game.stopMove(Direction.RIGHT);
-                }
-                return true;
+                return false;
             }
         });
 
@@ -109,6 +83,19 @@ public class MainActivity extends AppCompatActivity {
         hideSystemUI();
     }
 
+    private Direction getDirectionJoystick(MotionEvent me){
+        float x = me.getX();
+        float y = me.getY();
+        if (x >= up.getX() && x <= up.getX() + up.getHeight() && y >= up.getY() && y <= up.getY() + up.getWidth())
+            return Direction.UP;
+        else if (x >= down.getX() && x <= down.getX() + down.getHeight() && y >= down.getY() && y <= down.getY() + down.getWidth())
+            return Direction.DOWN;
+        else if (x >= left.getX() && x <= left.getX() + left.getHeight() && y >= left.getY() && y <= left.getY() + left.getWidth())
+            return Direction.LEFT;
+        else if (x >= right.getX() && x <= right.getX() + right.getHeight() && y >= right.getY() && y <= right.getY() + right.getWidth())
+            return Direction.RIGHT;
+        return Direction.NONE;
+    }
 
 
 

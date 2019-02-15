@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Timer;
 
 public class Game {
-    Context context;
-    RelativeLayout map;
-    List<Obstacle> obstacles;
-    List<Trainer> trainers;
-    Player player;
-    Direction currentDirection;
-    Handler handler;
+    private Context context;
+    private RelativeLayout map;
+    private List<Obstacle> obstacles;
+    private List<Trainer> trainers;
+    private Player player;
+    private Direction currentDirection;
+    private Handler handler;
     boolean isMoving, mustMove;
 
     public Game(RelativeLayout map, int height, int width, Player player,Context context) {
@@ -239,5 +239,9 @@ public class Game {
 
     public int getHeight() {
         return map.getHeight();
+    }
+
+    public Direction getCurrentDirection() {
+        return currentDirection;
     }
 }
