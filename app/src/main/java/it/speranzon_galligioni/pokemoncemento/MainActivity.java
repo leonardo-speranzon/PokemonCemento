@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private View up, down, left, right;
+    private Button cmdA,cmdB;
     private Game game;
     private ConstraintLayout root, joystick;
 
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         down = findViewById(R.id.cmd_down);
         left = findViewById(R.id.cmd_left);
         right = findViewById(R.id.cmd_right);
+        cmdA = findViewById(R.id.cmd_A);
+        cmdB = findViewById(R.id.cmd_B);
         joystick = findViewById(R.id.joystick);
         root = findViewById(R.id.root);
 
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Direction dir=getDirectionJoystick(event);
-                if(dir==Direction.NONE && game.getCurrentDirection()!=Direction.NONE){
+                if(dir==Direction.NONE){
                     game.stopMove(game.getCurrentDirection());
                     return true;
                 }
@@ -70,6 +73,20 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case MotionEvent.ACTION_UP:
                         game.stopMove(dir);
+                        return true;
+                }
+                return false;
+            }
+        });
+        cmdB.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        game.setRunning(true);
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        game.setRunning(false);
                         return true;
                 }
                 return false;

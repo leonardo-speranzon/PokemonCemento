@@ -8,7 +8,6 @@ import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 public class Game {
     private Context context;
@@ -18,7 +17,7 @@ public class Game {
     private Player player;
     private Direction currentDirection;
     private Handler handler;
-    boolean isMoving, mustMove;
+    boolean isMoving, mustMove, running;
 
     public Game(RelativeLayout map, int height, int width, Player player,Context context) {
         this(map, height, width, new ArrayList<Obstacle>(),new ArrayList<Trainer>(), player,context);
@@ -68,7 +67,7 @@ public class Game {
                 @Override
                 public void run() {
                     if (!move())
-                        handler.postDelayed(this, 100);
+                        handler.postDelayed(this, 50);
                 }
             }, 0);
         }
@@ -153,7 +152,7 @@ public class Game {
         int moveX = (int) (getX() + -direction.getX());
         int moveY = (int) (getY() + -direction.getY());
         for(Trainer t:trainers)
-            if(t.tihavistomannagiaallaputtana(player,moveX,moveY))
+            if(t.checkView(player,moveX,moveY))
                 return true;
         return false;
     }
@@ -176,10 +175,11 @@ public class Game {
      * @param direction direzione del movimento
      */
     private void movePlayer(final Direction direction) {
+        int animationDuration =running?GameCostants.PLAYER_MOVEMENT_DURATION/2:GameCostants.PLAYER_MOVEMENT_DURATION;
         map.animate()
                 .translationXBy(-direction.getX() * GameCostants.BOX_SIZE)
                 .translationYBy(-direction.getY() * GameCostants.BOX_SIZE)
-                .setDuration(500)
+                .setDuration(animationDuration)
                 .setListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {
@@ -206,13 +206,13 @@ public class Game {
             public void run() {
                 player.setImageDrawable(context.getDrawable(R.drawable.man_3));
             }
-        },125);
+        },animationDuration/4);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 player.setImageDrawable(context.getDrawable(R.drawable.man_2));
             }
-        },375);
+        },animationDuration/4*3);
         //map.setX(map.getX() + direction.getX() * GameCostants.BOX_SIZE);
         //map.setY(map.getY() + direction.getY() * GameCostants.BOX_SIZE);
     }
@@ -243,5 +243,13 @@ public class Game {
 
     public Direction getCurrentDirection() {
         return currentDirection;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
     }
 }

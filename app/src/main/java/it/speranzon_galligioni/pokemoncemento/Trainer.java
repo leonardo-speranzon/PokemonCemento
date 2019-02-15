@@ -24,7 +24,7 @@ public class Trainer extends GameElement {
 
         this.lookDirection=lookDirection;
     }
-    public boolean tihavistomannagiaallaputtana(Player player,int moveX,int moveY){
+    public boolean checkView(Player player, int moveX, int moveY){
         Log.d("PROVA","controllo");
         return (moveX + getX() + Math.min(lookDirection.getX()*GameCostants.TRAINER_DISTANCE_VIEW,0) <= player.getX()
                 && moveX + getX() + Math.max((lookDirection.getX()*GameCostants.TRAINER_DISTANCE_VIEW),0)+1 >= player.getX() + 1
