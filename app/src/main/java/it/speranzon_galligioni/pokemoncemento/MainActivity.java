@@ -94,10 +94,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
+        hideSystemUI();
         game = readXmlAndCreate(R.id.map_container, R.id.map, R.xml.map_severi);
 
-        hideSystemUI();
+
     }
 
     private Direction getDirectionJoystick(MotionEvent me){
@@ -117,8 +117,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void hideSystemUI() {
+       /* final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;*/
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_IMMERSIVE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         onWindowFocusChanged(true);
     }
 
@@ -173,29 +183,32 @@ public class MainActivity extends AppCompatActivity {
 
         Point screenSize = new Point();
         getWindowManager().getDefaultDisplay().getSize(screenSize);
-
-        Log.d("PROVA", "Height: " + screenSize.y + "  Width: " + screenSize.x);
         ConstraintLayout.LayoutParams lpMc = (ConstraintLayout.LayoutParams) mapContainerL.getLayoutParams();
-        int mcHeight = (int) Math.floor((screenSize.y - 16) / GameCostants.BOX_SIZE);
+
+        int mcHeight = (int) Math.ceil((screenSize.y) / (double)GameCostants.BOX_SIZE);
         if (mcHeight % 2 == 0)
-            mcHeight--;
-        int mcWidth = (int) Math.floor((screenSize.x - 16) / GameCostants.BOX_SIZE);
+            mcHeight++;
+        int mcWidth = (int) Math.ceil((screenSize.x) / (double)GameCostants.BOX_SIZE);
         if (mcWidth % 2 == 0)
-            mcWidth--;
-        lpMc.height = mcHeight * GameCostants.BOX_SIZE;
+            mcWidth++;
+        Log.d("PROVA", "Height: " + screenSize.y + "  Width: " + screenSize.x+"  mcHeight: "+mcHeight+"  mcWidth: "+mcWidth);
+
+        lpMc.height =mcHeight * GameCostants.BOX_SIZE;
         lpMc.width = mcWidth * GameCostants.BOX_SIZE;
-        lpMc.topMargin=(screenSize.y-mcHeight*GameCostants.BOX_SIZE)/2;
-        lpMc.leftMargin=(screenSize.x-mcWidth*GameCostants.BOX_SIZE)/2;
+        lpMc.topMargin=-(mcHeight*GameCostants.BOX_SIZE-screenSize.y)/2;
+        lpMc.bottomMargin=-(mcHeight*GameCostants.BOX_SIZE-screenSize.y)/2;
+        lpMc.leftMargin=-(mcWidth*GameCostants.BOX_SIZE-screenSize.x)/2;
+        lpMc.rightMargin=-(mcWidth*GameCostants.BOX_SIZE-screenSize.x)/2;
         mapContainerL.setLayoutParams(lpMc);
 
 
         Player p = new Player(this, mcWidth / 2, mcHeight / 2);
         mapContainerL.addView(p);
         RelativeLayout.LayoutParams lpP = (RelativeLayout.LayoutParams) p.getLayoutParams();
-        lpP.topMargin = mapContainerL.getHeight() / 2;
+        lpP.topMargin = mapContainerL.getWidth() / 2;
         lpP.leftMargin = mapContainerL.getHeight() / 2;
         p.setLayoutParams(lpP);
-
+        Log.d("PROVA","sSY: "+screenSize.y+", plY: "+p.getY());
         Game game = new Game(mapL, mapHeight, mapWidth, playerStartX, playerStartY, obstacles,trainers, p,this);
         return game;
     }

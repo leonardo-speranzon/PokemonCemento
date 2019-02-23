@@ -3,6 +3,7 @@ package it.speranzon_galligioni.pokemoncemento;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatImageView;
+import android.util.Log;
 import android.widget.RelativeLayout;
 
 public class GameElement extends AppCompatImageView {

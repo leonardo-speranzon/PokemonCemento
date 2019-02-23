@@ -36,6 +36,7 @@ public class Game {
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) map.getLayoutParams();
         lp.height = GameCostants.BOX_SIZE * height;
         lp.width = GameCostants.BOX_SIZE * width;
+        Log.d("PROVA","plY: " + player.getY() + ", plIY:" + playerInitY + ", top:" +(int) (player.getY() - playerInitY) * GameCostants.BOX_SIZE);
         lp.topMargin = (int) (player.getY() - playerInitY) * GameCostants.BOX_SIZE;
         lp.leftMargin = (int) (player.getX() - playerInitX) * GameCostants.BOX_SIZE;
         lp.bottomMargin = ((RelativeLayout) map.getParent()).getHeight() - lp.height - lp.topMargin;

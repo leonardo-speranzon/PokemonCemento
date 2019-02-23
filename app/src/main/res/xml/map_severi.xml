@@ -62,4 +62,9 @@
         y="2"
         direction="RIGHT"
         />
+    <trainer
+        x="15"
+        y="10"
+        direction="LEFT"
+        />
 </map>
