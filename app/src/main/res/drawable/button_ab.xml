@@ -2,18 +2,16 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
 
-    <solid
-        android:color="@color/colorControllerIn" />
+    <solid android:color="@color/colorControllerIn" />
 
-    <corners
-        android:radius="3dp"/>
+    <corners android:radius="3dp" />
 
     <size
         android:height="50dp"
-        android:width="50dp"/>
+        android:width="50dp" />
 
     <stroke
         android:color="@color/colorControllerOut"
-        android:width="3dp"/>
+        android:width="3dp" />
 
 </shape>
