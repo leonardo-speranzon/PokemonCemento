@@ -103,10 +103,10 @@ public class MainActivity extends AppCompatActivity {
 						return true;
 					case MotionEvent.ACTION_UP:
 						txtController.toggleDialog(true);
-						txtController.writeText(getString(R.string.marco), new Runnable() {
+						txtController.writeText("Marco", getString(R.string.Marco), new Runnable() {
 							@Override
 							public void run() {
-								txtController.getTextController().setOnTouchListener(new View.OnTouchListener() {
+								txtController.getTextLayout().setOnTouchListener(new View.OnTouchListener() {
 									@Override
 									public boolean onTouch(View v, MotionEvent event) {
 										switch (event.getAction()) {
