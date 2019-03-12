@@ -102,25 +102,6 @@ public class MainActivity extends AppCompatActivity {
 					case MotionEvent.ACTION_DOWN:
 						return true;
 					case MotionEvent.ACTION_UP:
-						txtController.toggleDialog(true);
-						txtController.writeText("Marco", getString(R.string.Marco), new Runnable() {
-							@Override
-							public void run() {
-								txtController.getTextLayout().setOnTouchListener(new View.OnTouchListener() {
-									@Override
-									public boolean onTouch(View v, MotionEvent event) {
-										switch (event.getAction()) {
-											case MotionEvent.ACTION_DOWN:
-												return true;
-											case MotionEvent.ACTION_UP:
-												txtController.toggleDialog(false);
-												return true;
-										}
-										return false;
-									}
-								});
-							}
-						});
 						return true;
 				}
 				return false;
@@ -240,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
 		lpP.leftMargin = mapContainerL.getHeight() / 2;
 		p.setLayoutParams(lpP);
 		Log.d("PROVA", "sSY: " + screenSize.y + ", plY: " + p.getY());
-		Game game = new Game(mapL, mapHeight, mapWidth, playerStartX, playerStartY, obstacles, trainers, p, this);
+		Game game = new Game(mapL, mapHeight, mapWidth, playerStartX, playerStartY, obstacles, trainers, p, txtController, this);
 		return game;
 	}
 }

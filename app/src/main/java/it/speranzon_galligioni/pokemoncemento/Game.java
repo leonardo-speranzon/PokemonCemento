@@ -2,8 +2,10 @@ package it.speranzon_galligioni.pokemoncemento;
 
 import android.animation.Animator;
 import android.content.Context;
+import android.graphics.Path;
 import android.os.Handler;
 import android.util.Log;
+import android.view.ViewPropertyAnimator;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
@@ -17,21 +19,23 @@ public class Game {
 	private Player player;
 	private Direction currentDirection;
 	private Handler handler;
-	boolean isMoving, mustMove, running;
+	private TextController txtController;
+	private boolean isMoving, mustMove, running;
 
-	public Game(RelativeLayout map, int height, int width, Player player, Context context) {
-		this(map, height, width, new ArrayList<Obstacle>(), new ArrayList<Trainer>(), player, context);
+	public Game(RelativeLayout map, int height, int width, Player player, TextController txtController, Context context) {
+		this(map, height, width, new ArrayList<Obstacle>(), new ArrayList<Trainer>(), player, txtController, context);
 	}
 
-	public Game(RelativeLayout map, int height, int width, List<Obstacle> obstacles, List<Trainer> trainers, Player player, Context context) {
-		this(map, height, width, 0, 0, new ArrayList<Obstacle>(), trainers, player, context);
+	public Game(RelativeLayout map, int height, int width, List<Obstacle> obstacles, List<Trainer> trainers, Player player, TextController txtController, Context context) {
+		this(map, height, width, 0, 0, new ArrayList<Obstacle>(), trainers, player, txtController, context);
 	}
 
-	public Game(RelativeLayout map, int height, int width, int playerInitX, int playerInitY, List<Obstacle> obstacles, List<Trainer> trainers, Player player, Context context) {
+	public Game(RelativeLayout map, int height, int width, int playerInitX, int playerInitY, List<Obstacle> obstacles, List<Trainer> trainers, Player player, TextController txtController, Context context) {
 		this.obstacles = new ArrayList<>(obstacles);
 		this.trainers = new ArrayList<>(trainers);
 		this.player = player;
 		this.map = map;
+		this.txtController=txtController;
 		this.context = context;
 		RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) map.getLayoutParams();
 		lp.height = GameCostants.BOX_SIZE * height;
@@ -114,11 +118,50 @@ public class Game {
 		if (checkCollisions(currentDirection))
 			return true;
 		//controlla che il Player non venga visto dagli altri allenatori
-		if (checkTrainer(currentDirection)) {
-			Log.d("PROVA", "allenatoreeeeee");
-		}
+		Trainer t;
+
 		//Log.d("PROVA", "MOSSO  : " + currentDirection.toString());
 		movePlayer(currentDirection);
+		if ((t=checkTrainer(currentDirection))!=null) {
+			float deltaX,deltaY=0;
+			ViewPropertyAnimator animation = t.animate();
+			Log.d("PROVA","allenatorreeeee");
+			if((deltaX=player.getX()-(map.getX()/GameCostants.BOX_SIZE+t.getX()))!=0)
+				animation=animation.xBy((deltaX-(deltaX/Math.abs(deltaX)))*GameCostants.BOX_SIZE).setDuration((long) ((Math.abs(deltaX)-1)*GameCostants.PLAYER_MOVEMENT_DURATION));
+			else if((deltaY=player.getY()-(map.getY()/GameCostants.BOX_SIZE+t.getY()))!=0)
+				animation=animation.yBy((deltaY-(deltaY/Math.abs(deltaY)))*GameCostants.BOX_SIZE).setDuration((long) ((Math.abs(deltaY)-1)*GameCostants.PLAYER_MOVEMENT_DURATION));
+			else
+				Log.d("PROVA","problemaaaaa");
+			Log.d("PROVA","dX: "+(deltaX-(deltaX/Math.abs(deltaX)))+"  dY:"+(deltaY-(deltaY/Math.abs(deltaY))));
+			animation.setListener(new Animator.AnimatorListener() {
+				@Override
+				public void onAnimationStart(Animator animation) {
+
+				}
+
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					txtController.toggleDialog(true);
+					txtController.writeText("Marco", context.getString(R.string.Marco), new Runnable() {
+						@Override
+						public void run() {
+
+						}
+					});
+				}
+
+				@Override
+				public void onAnimationCancel(Animator animation) {
+
+				}
+
+				@Override
+				public void onAnimationRepeat(Animator animation) {
+
+				}
+			});
+			stopMove(getCurrentDirection());
+		}
 		return true;
 
 	}
@@ -154,13 +197,13 @@ public class Game {
 		return false;
 	}
 
-	public boolean checkTrainer(Direction direction) {
+	public Trainer checkTrainer(Direction direction) {
 		int moveX = (int) (getX() + -direction.getX());
 		int moveY = (int) (getY() + -direction.getY());
 		for (Trainer t : trainers)
 			if (t.checkView(player, moveX, moveY))
-				return true;
-		return false;
+				return t;
+		return null;
 	}
 
 	/**

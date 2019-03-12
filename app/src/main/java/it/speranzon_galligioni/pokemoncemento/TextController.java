@@ -1,5 +1,6 @@
 package it.speranzon_galligioni.pokemoncemento;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.view.MotionEvent;
@@ -72,6 +73,7 @@ public class TextController {
 		});
 
 		handler.postDelayed(new Runnable() {
+			@SuppressLint("ClickableViewAccessibility")
 			@Override
 			public void run() {
 				if (c < chars.length) {
@@ -84,7 +86,21 @@ public class TextController {
 					}
 				} else {
 					canTouch = true;
-					post.run();
+					textLayout.setOnTouchListener(new View.OnTouchListener() {
+						@Override
+						public boolean onTouch(View v, MotionEvent event) {
+							switch (event.getAction()) {
+								case MotionEvent.ACTION_DOWN:
+									return true;
+								case MotionEvent.ACTION_UP:
+									toggleDialog(false);
+									post.run();
+									return true;
+							}
+							return false;
+						}
+					});
+
 				}
 			}
 		}, 0);
