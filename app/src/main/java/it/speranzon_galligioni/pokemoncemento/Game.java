@@ -1,9 +1,11 @@
 package it.speranzon_galligioni.pokemoncemento;
 
 import android.animation.Animator;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.widget.RelativeLayout;
 
@@ -116,51 +118,14 @@ public class Game {
 		//controlla che il Player non entri in un ostacolo o allenatore
 		if (checkCollisions(currentDirection))
 			return true;
-		//controlla che il Player non venga visto dagli altri allenatori
-		final Trainer t;
+
+		//controlla che il player non sia stato bloccato
+		if(player.isBlocked())
+			return true;
 
 		//Log.d("PROVA", "MOSSO  : " + currentDirection.toString());
 		movePlayer(currentDirection);
-		if ((t = checkTrainer(currentDirection)) != null) {
-			float deltaX, deltaY = 0;
-			ViewPropertyAnimator animation = t.animate();
-			Log.d("PROVA", "allenatorreeeee");
-			if ((deltaX = player.getX() - (map.getX() / GameCostants.BOX_SIZE + t.getX())) != 0)
-				animation = animation.xBy((deltaX - (deltaX / Math.abs(deltaX))) * GameCostants.BOX_SIZE).setDuration((long) ((Math.abs(deltaX) - 1) * GameCostants.PLAYER_MOVEMENT_DURATION));
-			else if ((deltaY = player.getY() - (map.getY() / GameCostants.BOX_SIZE + t.getY())) != 0)
-				animation = animation.yBy((deltaY - (deltaY / Math.abs(deltaY))) * GameCostants.BOX_SIZE).setDuration((long) ((Math.abs(deltaY) - 1) * GameCostants.PLAYER_MOVEMENT_DURATION));
-			else
-				Log.d("PROVA", "problemaaaaa");
-			Log.d("PROVA", "dX: " + (deltaX - (deltaX / Math.abs(deltaX))) + "  dY:" + (deltaY - (deltaY / Math.abs(deltaY))));
-			animation.setListener(new Animator.AnimatorListener() {
-				@Override
-				public void onAnimationStart(Animator animation) {
 
-				}
-
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					txtController.toggleDialog(true);
-					txtController.writeText(t, new Runnable() {
-						@Override
-						public void run() {
-
-						}
-					});
-				}
-
-				@Override
-				public void onAnimationCancel(Animator animation) {
-
-				}
-
-				@Override
-				public void onAnimationRepeat(Animator animation) {
-
-				}
-			});
-			stopMove(getCurrentDirection());
-		}
 		return true;
 
 	}
@@ -200,7 +165,7 @@ public class Game {
 		int moveX = (int) (getX() + -direction.getX());
 		int moveY = (int) (getY() + -direction.getY());
 		for (Trainer t : trainers)
-			if (t.checkView(player, moveX, moveY))
+			if (!t.isDisabled() && t.checkView(player, moveX, moveY))
 				return t;
 		return null;
 	}
@@ -238,8 +203,66 @@ public class Game {
 
 					@Override
 					public void onAnimationEnd(Animator animation) {
-						isMoving = false;
-						move();
+
+						//controlla che il Player non venga visto dagli altri allenatori
+						final Trainer t;
+						if ((t = checkTrainer(currentDirection)) != null) {
+							player.block();
+							float deltaX, deltaY = 0;
+							ViewPropertyAnimator trainerAnimation = t.animate();
+							if ((deltaX = player.getX() - (map.getX() / GameCostants.BOX_SIZE + t.getX())) != 0)
+								trainerAnimation = trainerAnimation.xBy((deltaX - (deltaX / Math.abs(deltaX))) * GameCostants.BOX_SIZE).setDuration((long) ((Math.abs(deltaX) - 1) * GameCostants.PLAYER_MOVEMENT_DURATION));
+							else if ((deltaY = player.getY() - (map.getY() / GameCostants.BOX_SIZE + t.getY())) != 0)
+								trainerAnimation = trainerAnimation.yBy((deltaY - (deltaY / Math.abs(deltaY))) * GameCostants.BOX_SIZE).setDuration((long) ((Math.abs(deltaY) - 1) * GameCostants.PLAYER_MOVEMENT_DURATION));
+							else
+								Log.w("PROVA", "problema allenatore");
+							deltaY = player.getY() - (map.getY() / GameCostants.BOX_SIZE + t.getY());
+							Log.d("PROVA", "dX: " + (deltaX - (deltaX / Math.abs(deltaX))) + "  dY:" + (deltaY - (deltaY / Math.abs(deltaY))));
+							trainerAnimation.setListener(new Animator.AnimatorListener() {
+								@Override
+								public void onAnimationStart(Animator animation) {
+
+								}
+
+								@Override
+								public void onAnimationEnd(Animator animation) {
+									txtController.toggleDialog(true);
+									txtController.writeText(t, new Runnable() {
+										@Override
+										public void run() {
+											//player.unlock();
+											t.disable();
+											final View main=((Activity) context).findViewById(R.id.root);
+											((Activity) context).setContentView(R.layout.activity_scontro);
+											handler.postDelayed(new Runnable() {
+												@Override
+												public void run() {
+													((Activity) context).setContentView(main);
+													player.unlock();
+												}
+											},2000);
+										}
+									});
+								}
+
+								@Override
+								public void onAnimationCancel(Animator animation) {
+
+								}
+
+								@Override
+								public void onAnimationRepeat(Animator animation) {
+
+								}
+							});
+
+							//stopMove(getCurrentDirection());
+							isMoving=false;
+						} else{
+							isMoving = false;
+							move();
+						}
+
 					}
 
 					@Override

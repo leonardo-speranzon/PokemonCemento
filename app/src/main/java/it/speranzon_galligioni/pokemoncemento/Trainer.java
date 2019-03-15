@@ -6,6 +6,7 @@ public class Trainer extends GameElement {
 	private Direction lookDirection;
 
 	private String name;
+	private boolean disabled;
 
 	public Trainer(Context context, int x, int y, Direction lookDirection, String name) {
 		super(context, x, y, 1, 1, R.drawable.trainer);
@@ -39,4 +40,8 @@ public class Trainer extends GameElement {
 	public String getName() {
 		return name;
 	}
+
+	public void enable(){disabled=false;}
+	public void disable(){disabled=true;}
+	public boolean isDisabled(){return disabled;}
 }
