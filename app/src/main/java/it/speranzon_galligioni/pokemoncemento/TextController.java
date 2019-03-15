@@ -1,6 +1,6 @@
 package it.speranzon_galligioni.pokemoncemento;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.view.MotionEvent;
@@ -16,14 +16,18 @@ public class TextController {
 
 	private ConstraintLayout controllers;
 
+	private Context context;
+
 	private Handler handler;
 
-	public TextController(ConstraintLayout textLayout, ConstraintLayout controllers) {
+	public TextController(ConstraintLayout textLayout, ConstraintLayout controllers, Context context) {
 		this.textLayout = textLayout;
 		this.controllers = controllers;
 
 		this.dialog = (TextView) textLayout.getChildAt(0);
 		this.triangle = (ImageView) textLayout.getChildAt(1);
+
+		this.context = context;
 
 		handler = new Handler();
 
@@ -48,14 +52,14 @@ public class TextController {
 	private int c = 0;
 	private boolean canTouch = false;
 
-	public void writeText(final String name, String textdialog, final Runnable post) {
-		dialog.setText(name + "\n");
+	public void writeText(final Trainer t, final Runnable post) {
+
+		dialog.setText(t.getName() + "\n");
 
 		canTouch = false;
 		toggleTriangle(false);
-		c = 0;
 
-		final char[] chars = textdialog.toCharArray();
+		final char[] chars = context.getString(context.getResources().getIdentifier(t.getName(), "string", context.getPackageName())).toCharArray();
 
 		textLayout.setOnTouchListener(new View.OnTouchListener() {
 			@Override
@@ -65,7 +69,7 @@ public class TextController {
 						return true;
 					case MotionEvent.ACTION_UP:
 						if (canTouch)
-							writeText(name, String.valueOf(chars).substring(c), post);
+							writeText(t, post);
 						return true;
 				}
 				return false;
@@ -73,18 +77,17 @@ public class TextController {
 		});
 
 		handler.postDelayed(new Runnable() {
-			@SuppressLint("ClickableViewAccessibility")
 			@Override
 			public void run() {
 				if (c < chars.length) {
-					if (c != 0 && chars[c - 1] == '.') {
-						canTouch = true;
-					} else {
-						String s = dialog.getText().toString() + chars[c++];
-						dialog.setText(s);
+					String s = dialog.getText().toString() + chars[c++];
+					dialog.setText(s);
+					if (c == 0 || chars[c - 1] != '.')
 						handler.postDelayed(this, GameCostants.DIALOG_SPEED);
-					}
-				} else {
+					else
+						canTouch = c < chars.length;
+				}
+				if (c >= chars.length) {
 					canTouch = true;
 					textLayout.setOnTouchListener(new View.OnTouchListener() {
 						@Override
@@ -93,6 +96,7 @@ public class TextController {
 								case MotionEvent.ACTION_DOWN:
 									return true;
 								case MotionEvent.ACTION_UP:
+									c = 0;
 									toggleDialog(false);
 									post.run();
 									return true;
@@ -100,7 +104,6 @@ public class TextController {
 							return false;
 						}
 					});
-
 				}
 			}
 		}, 0);

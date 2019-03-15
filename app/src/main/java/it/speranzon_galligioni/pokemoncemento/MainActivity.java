@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 		joystick = findViewById(R.id.joystick);
 		root = findViewById(R.id.root);
 
-		txtController = new TextController((ConstraintLayout) findViewById(R.id.textController), (ConstraintLayout) findViewById(R.id.controllers));
+		txtController = new TextController((ConstraintLayout) findViewById(R.id.textController), (ConstraintLayout) findViewById(R.id.controllers), this);
 
 		joystick.setOnTouchListener(new View.OnTouchListener() {
 			@Override
@@ -182,7 +182,9 @@ public class MainActivity extends AppCompatActivity {
 						int x = xpp.getAttributeIntValue(null, "x", 0);
 						int y = xpp.getAttributeIntValue(null, "y", 0);
 						String dir = xpp.getAttributeValue(null, "direction");
-						trainers.add(new Trainer(this, x, y, Direction.valueOf(dir)));
+						String name = xpp.getAttributeValue(null, "name");
+						Log.d("PROVA", name + "");
+						trainers.add(new Trainer(this, x, y, Direction.valueOf(dir), name));
 					}
 				}
 				eventType = xpp.next();

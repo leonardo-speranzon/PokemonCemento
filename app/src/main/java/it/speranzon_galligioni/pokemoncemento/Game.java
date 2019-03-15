@@ -2,7 +2,6 @@ package it.speranzon_galligioni.pokemoncemento;
 
 import android.animation.Animator;
 import android.content.Context;
-import android.graphics.Path;
 import android.os.Handler;
 import android.util.Log;
 import android.view.ViewPropertyAnimator;
@@ -35,7 +34,7 @@ public class Game {
 		this.trainers = new ArrayList<>(trainers);
 		this.player = player;
 		this.map = map;
-		this.txtController=txtController;
+		this.txtController = txtController;
 		this.context = context;
 		RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) map.getLayoutParams();
 		lp.height = GameCostants.BOX_SIZE * height;
@@ -118,21 +117,21 @@ public class Game {
 		if (checkCollisions(currentDirection))
 			return true;
 		//controlla che il Player non venga visto dagli altri allenatori
-		Trainer t;
+		final Trainer t;
 
 		//Log.d("PROVA", "MOSSO  : " + currentDirection.toString());
 		movePlayer(currentDirection);
-		if ((t=checkTrainer(currentDirection))!=null) {
-			float deltaX,deltaY=0;
+		if ((t = checkTrainer(currentDirection)) != null) {
+			float deltaX, deltaY = 0;
 			ViewPropertyAnimator animation = t.animate();
-			Log.d("PROVA","allenatorreeeee");
-			if((deltaX=player.getX()-(map.getX()/GameCostants.BOX_SIZE+t.getX()))!=0)
-				animation=animation.xBy((deltaX-(deltaX/Math.abs(deltaX)))*GameCostants.BOX_SIZE).setDuration((long) ((Math.abs(deltaX)-1)*GameCostants.PLAYER_MOVEMENT_DURATION));
-			else if((deltaY=player.getY()-(map.getY()/GameCostants.BOX_SIZE+t.getY()))!=0)
-				animation=animation.yBy((deltaY-(deltaY/Math.abs(deltaY)))*GameCostants.BOX_SIZE).setDuration((long) ((Math.abs(deltaY)-1)*GameCostants.PLAYER_MOVEMENT_DURATION));
+			Log.d("PROVA", "allenatorreeeee");
+			if ((deltaX = player.getX() - (map.getX() / GameCostants.BOX_SIZE + t.getX())) != 0)
+				animation = animation.xBy((deltaX - (deltaX / Math.abs(deltaX))) * GameCostants.BOX_SIZE).setDuration((long) ((Math.abs(deltaX) - 1) * GameCostants.PLAYER_MOVEMENT_DURATION));
+			else if ((deltaY = player.getY() - (map.getY() / GameCostants.BOX_SIZE + t.getY())) != 0)
+				animation = animation.yBy((deltaY - (deltaY / Math.abs(deltaY))) * GameCostants.BOX_SIZE).setDuration((long) ((Math.abs(deltaY) - 1) * GameCostants.PLAYER_MOVEMENT_DURATION));
 			else
-				Log.d("PROVA","problemaaaaa");
-			Log.d("PROVA","dX: "+(deltaX-(deltaX/Math.abs(deltaX)))+"  dY:"+(deltaY-(deltaY/Math.abs(deltaY))));
+				Log.d("PROVA", "problemaaaaa");
+			Log.d("PROVA", "dX: " + (deltaX - (deltaX / Math.abs(deltaX))) + "  dY:" + (deltaY - (deltaY / Math.abs(deltaY))));
 			animation.setListener(new Animator.AnimatorListener() {
 				@Override
 				public void onAnimationStart(Animator animation) {
@@ -142,7 +141,7 @@ public class Game {
 				@Override
 				public void onAnimationEnd(Animator animation) {
 					txtController.toggleDialog(true);
-					txtController.writeText("Marco", context.getString(R.string.Marco), new Runnable() {
+					txtController.writeText(t, new Runnable() {
 						@Override
 						public void run() {
 

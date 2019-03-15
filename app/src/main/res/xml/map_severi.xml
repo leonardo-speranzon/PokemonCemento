@@ -1,64 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <map
     h="14"
-    w="20"
     px="1"
-    py="1">
+    py="1"
+    w="20">
     <obstacle
-        x="0"
-        y="0"
+        h="1"
+        type="WALL"
         w="20"
-        h="1"
-        type="WALL" />
-    <obstacle
-        x="12"
-        y="1"
-        w="8"
-        h="3"
-        type="WALL" />
-    <obstacle
         x="0"
-        y="1"
-        w="1"
-        h="13"
-        type="WALL" />
+        y="0" />
     <obstacle
-        x="1"
-        y="6"
+        h="3"
+        type="WALL"
         w="8"
-        h="8"
-        type="WALL" />
+        x="12"
+        y="1" />
     <obstacle
-        x="9"
-        y="9"
-        w="4"
-        h="5"
-        type="WALL" />
-    <obstacle
-        x="13"
-        y="13"
-        w="6"
-        h="1"
-        type="WALL" />
-    <obstacle
-        x="19"
-        y="4"
+        h="13"
+        type="WALL"
         w="1"
+        x="0"
+        y="1" />
+    <obstacle
+        h="8"
+        type="WALL"
+        w="8"
+        x="1"
+        y="6" />
+    <obstacle
+        h="5"
+        type="WALL"
+        w="4"
+        x="9"
+        y="9" />
+    <obstacle
+        h="1"
+        type="WALL"
+        w="6"
+        x="13"
+        y="13" />
+    <obstacle
         h="10"
-        type="WALL" />
+        type="WALL"
+        w="1"
+        x="19"
+        y="4" />
 
     <obstacle
-        x="4"
-        y="3"
-        w="3"
         h="1"
-        type="WALL" />
-    <trainer
+        type="WALL"
+        w="3"
         x="4"
-        y="2"
-        direction="RIGHT" />
+        y="3" />
     <trainer
+        name="Marco"
+        direction="RIGHT"
+        x="4"
+        y="2" />
+    <trainer
+        name="Marco"
+        direction="LEFT"
         x="15"
-        y="10"
-        direction="LEFT" />
+        y="10" />
 </map>
