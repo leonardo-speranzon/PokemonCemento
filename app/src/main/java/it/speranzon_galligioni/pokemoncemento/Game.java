@@ -234,13 +234,15 @@ public class Game {
 											t.disable();
 											final View main=((Activity) context).findViewById(R.id.root);
 											((Activity) context).setContentView(R.layout.activity_scontro);
+											((PokemonScontro) ((Activity) context).findViewById(R.id.enemy_side)).init(Pokemon.CEMENTOKARP);
+											((PokemonScontro) ((Activity) context).findViewById(R.id.friendly_side)).init(Pokemon.GRIGINOMON);
 											handler.postDelayed(new Runnable() {
 												@Override
 												public void run() {
 													((Activity) context).setContentView(main);
 													player.unlock();
 												}
-											},2000);
+											},10000);
 										}
 									});
 								}
@@ -324,5 +326,10 @@ public class Game {
 
 	public void setRunning(boolean running) {
 		this.running = running;
+	}
+
+	public void scontro(){
+
+
 	}
 }

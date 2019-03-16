@@ -6,33 +6,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout"
+    <it.speranzon_galligioni.pokemoncemento.PokemonScontro
+        android:id="@+id/enemy_side"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        android:paddingBottom="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:side="enemy">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/details"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
-            app:layout_constraintEnd_toStartOf="@+id/imageView2"
+            app:layout_constraintEnd_toStartOf="@+id/pokemon"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ProgressBar
-                android:id="@+id/progressBar"
+                android:id="@+id/life"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
@@ -41,41 +44,42 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:max="100"
-                android:progress="33"
+                android:max="50"
                 android:progressDrawable="@drawable/life_bar"
+                android:progressTint="#0F0"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                tools:progress="33" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Griginomon"
-                app:layout_constraintBottom_toTopOf="@+id/progressBar"
+                app:layout_constraintBottom_toTopOf="@+id/life"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Griginomon" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/hp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="4dp"
-                android:text="33/100 HP"
                 android:textSize="8sp"
-                app:layout_constraintBottom_toTopOf="@+id/progressBar"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/life"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="33/50 HP" />
         </android.support.constraint.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
+            android:id="@+id/pokemon"
+            android:layout_width="199dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
@@ -83,33 +87,106 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/grigino" />
+            tools:layout_editor_absoluteX="369dp"
+            tools:srcCompat="@drawable/griginomon" />
 
-    </android.support.constraint.ConstraintLayout>
+    </it.speranzon_galligioni.pokemoncemento.PokemonScontro>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout2"
+    <it.speranzon_galligioni.pokemoncemento.PokemonScontro
+        android:id="@+id/friendly-side"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:paddingTop="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintTop_toTopOf="parent"
+        app:side="friendly">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/details"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="-1dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/pokemon"
+            tools:ignore="DuplicateIds">
+
+            <ProgressBar
+
+                android:id="@+id/life"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:progressDrawable="@drawable/life_bar"
+                android:progressTint="#0F0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:max="50"
+                tools:progress="33" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/life"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Griginomon" />
+
+            <TextView
+                android:id="@+id/hp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="4dp"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toTopOf="@+id/life"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="33/50 HP" />
+        </android.support.constraint.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/pokemon"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/cementokarp" />
-    </android.support.constraint.ConstraintLayout>
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="DuplicateIds"
+            tools:srcCompat="@drawable/griginomon" />
+    </it.speranzon_galligioni.pokemoncemento.PokemonScontro>
+
+    <include
+        layout="@layout/attacks"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
