@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import it.speranzon_galligioni.pokemoncemento.gameObject.Trainer;
+
 public class TextController {
 
 	private ConstraintLayout textLayout;

@@ -1,4 +1,6 @@
-package it.speranzon_galligioni.pokemoncemento;
+package it.speranzon_galligioni.pokemoncemento.enums;
+
+import it.speranzon_galligioni.pokemoncemento.R;
 
 public enum ObstacleTypes {
 	MOUNTAIN(R.drawable.obstacle_mountain),

@@ -1,16 +1,20 @@
 package it.speranzon_galligioni.pokemoncemento;
 
 import android.animation.Animator;
-import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import it.speranzon_galligioni.pokemoncemento.enums.Direction;
+import it.speranzon_galligioni.pokemoncemento.gameObject.Obstacle;
+import it.speranzon_galligioni.pokemoncemento.gameObject.Player;
+import it.speranzon_galligioni.pokemoncemento.gameObject.Trainer;
 
 public class Game {
 	private Context context;
@@ -22,22 +26,25 @@ public class Game {
 	private Handler handler;
 	private TextController txtController;
 	private boolean isMoving, mustMove, running;
+	private Runnable onScontro;
 
-	public Game(RelativeLayout map, int height, int width, Player player, TextController txtController, Context context) {
-		this(map, height, width, new ArrayList<Obstacle>(), new ArrayList<Trainer>(), player, txtController, context);
+	/*public Game(RelativeLayout map, int height, int width, Player player, TextController txtController,Runnable onScontro ,Context context) {
+		this(map, height, width, new ArrayList<Obstacle>(), new ArrayList<Trainer>(), player, txtController, onScontro, context);
 	}
 
-	public Game(RelativeLayout map, int height, int width, List<Obstacle> obstacles, List<Trainer> trainers, Player player, TextController txtController, Context context) {
-		this(map, height, width, 0, 0, new ArrayList<Obstacle>(), trainers, player, txtController, context);
-	}
+	public Game(RelativeLayout map, int height, int width, List<Obstacle> obstacles, List<Trainer> trainers, Player player, TextController txtController,Runnable onScontro, Context context) {
+		this(map, height, width, 0, 0, new ArrayList<Obstacle>(), trainers, player, txtController,onScontro, context);
+	}*/
 
-	public Game(RelativeLayout map, int height, int width, int playerInitX, int playerInitY, List<Obstacle> obstacles, List<Trainer> trainers, Player player, TextController txtController, Context context) {
+	public Game(RelativeLayout map, int height, int width, int playerInitX, int playerInitY, List<Obstacle> obstacles, List<Trainer> trainers, Player player, TextController txtController,Runnable onScontro, Context context) {
 		this.obstacles = new ArrayList<>(obstacles);
 		this.trainers = new ArrayList<>(trainers);
 		this.player = player;
 		this.map = map;
 		this.txtController = txtController;
 		this.context = context;
+		this.onScontro = onScontro;
+
 		RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) map.getLayoutParams();
 		lp.height = GameCostants.BOX_SIZE * height;
 		lp.width = GameCostants.BOX_SIZE * width;
@@ -65,16 +72,35 @@ public class Game {
 	 */
 	public void startMove(final Direction d) {
 
-		if (currentDirection == Direction.NONE) {
-
+		if (!mustMove) {
 			//Log.d("PROVA", "INIZIO : " + d.toString());
 			mustMove = true;
-			currentDirection = d;
+			final boolean[] mustRotate = {currentDirection != d};
+			Log.d("PROVA",""+mustRotate[0]);
+			currentDirection=d;
+
 			handler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					if (!move())
-						handler.postDelayed(this, 50);
+
+					switch (canMove()){
+						case 1:
+							if(mustRotate[0]){
+								player.setRotation(currentDirection.getDegrees());
+								mustRotate[0] =false;
+								handler.postDelayed(this,200);
+							}else
+								movePlayer(currentDirection);
+							break;
+						case 0:
+							handler.postDelayed(this, 50);
+							break;
+						case -1:
+							if(mustRotate[0]){
+								player.setRotation(currentDirection.getDegrees());
+								mustRotate[0] =false;
+							}
+					}
 				}
 			}, 0);
 		}
@@ -90,43 +116,48 @@ public class Game {
 		if (currentDirection == d) {
 			//Log.d("PROVA", "FINE   : " + d.toString());
 			mustMove = false;
-			currentDirection = Direction.NONE;
 		}
+	}
+	public void changeDirection(Direction d){
+		currentDirection=d;
 	}
 
 	/**
 	 * Muove il Player se esso è possibile
 	 *
-	 * @return ritorna falso se il movimento precedente non è ancora terinato
-	 * !!QUANDO RITORNA TRUE NON VUOL DIRE CHE IL MOVIMENTO E' AVVENUTO!!
+	 * @return
+	 * 		-1:no non può muoversi
+	 * 		 0:in attesa
+	 * 		+1:può muoversi
 	 */
-	public boolean move() {
+	public int canMove() {
 		//Log.d("PROVA", "mW: " + game.getWidth() / GameCostants.BOX_SIZE + "  mH: " + game.getHeight() / GameCostants.BOX_SIZE);
 		//Log.d("PROVA","Bordi: "+!game.checkMapBounds(d) +"  Collisioni: "+game.checkCollisions(d));
 		//Log.d("PROVA", "R-MOSSO: " + currentDirection.toString());
 
-		//controlla se vi deve essere un movimento
-		if (!mustMove)
-			return true;
 		//controlla che non si stia già muovendo
 		if (isMoving)
-			return false;
+			return 0;
+
+
+		//controlla se vi deve essere un movimento
+		if (!mustMove) {
+			return -1;
+		}
 
 		//controlla che il Player non esca dalla mappa
 		if (!checkMapBounds(currentDirection))
-			return true;
+			return -1;
 		//controlla che il Player non entri in un ostacolo o allenatore
 		if (checkCollisions(currentDirection))
-			return true;
+			return -1;
 
 		//controlla che il player non sia stato bloccato
 		if(player.isBlocked())
-			return true;
+			return -1;
 
-		//Log.d("PROVA", "MOSSO  : " + currentDirection.toString());
-		movePlayer(currentDirection);
 
-		return true;
+		return 1;
 
 	}
 
@@ -207,7 +238,10 @@ public class Game {
 						//controlla che il Player non venga visto dagli altri allenatori
 						final Trainer t;
 						if ((t = checkTrainer(currentDirection)) != null) {
+							stopMove(getCurrentDirection());
 							player.block();
+							isMoving=false;
+
 							float deltaX, deltaY = 0;
 							ViewPropertyAnimator trainerAnimation = t.animate();
 							if ((deltaX = player.getX() - (map.getX() / GameCostants.BOX_SIZE + t.getX())) != 0)
@@ -232,17 +266,8 @@ public class Game {
 										public void run() {
 											//player.unlock();
 											t.disable();
-											final View main=((Activity) context).findViewById(R.id.root);
-											((Activity) context).setContentView(R.layout.activity_scontro);
-											((PokemonScontro) ((Activity) context).findViewById(R.id.enemy_side)).init(Pokemon.CEMENTOKARP);
-											((PokemonScontro) ((Activity) context).findViewById(R.id.friendly_side)).init(Pokemon.GRIGINOMON);
-											handler.postDelayed(new Runnable() {
-												@Override
-												public void run() {
-													((Activity) context).setContentView(main);
-													player.unlock();
-												}
-											},10000);
+											onScontro.run();
+											player.unlock();
 										}
 									});
 								}
@@ -258,11 +283,15 @@ public class Game {
 								}
 							});
 
-							//stopMove(getCurrentDirection());
-							isMoving=false;
+							//
+
 						} else{
 							isMoving = false;
-							move();
+							if(canMove()==1 ){
+								if(direction!=currentDirection)
+									player.setRotation(currentDirection.getDegrees());
+								movePlayer(currentDirection);
+							}
 						}
 
 					}
@@ -276,18 +305,9 @@ public class Game {
 					}
 				})
 				.start();
-		handler.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				player.setImageDrawable(context.getDrawable(R.drawable.man_3));
-			}
-		}, animationDuration / 4);
-		handler.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				player.setImageDrawable(context.getDrawable(R.drawable.man_2));
-			}
-		}, animationDuration / 4 * 3);
+		player.setImageDrawable(context.getDrawable(R.drawable.player_1));
+		handler.postDelayed(() -> player.setImageDrawable(context.getDrawable(R.drawable.player_2)), animationDuration / 2);
+		handler.postDelayed(() -> player.setImageDrawable(context.getDrawable(R.drawable.player_0)), animationDuration);
 		//map.setX(map.getX() + direction.getX() * GameCostants.BOX_SIZE);
 		//map.setY(map.getY() + direction.getY() * GameCostants.BOX_SIZE);
 	}

@@ -1,6 +1,8 @@
-package it.speranzon_galligioni.pokemoncemento;
+package it.speranzon_galligioni.pokemoncemento.gameObject;
 
 import android.content.Context;
+
+import it.speranzon_galligioni.pokemoncemento.enums.ObstacleTypes;
 
 public class Obstacle extends GameElement {
 

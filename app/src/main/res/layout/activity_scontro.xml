@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <it.speranzon_galligioni.pokemoncemento.PokemonScontro
+    <it.speranzon_galligioni.pokemoncemento.gameObject.PokemonScontro
         android:id="@+id/enemy_side"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -90,9 +90,9 @@
             tools:layout_editor_absoluteX="369dp"
             tools:srcCompat="@drawable/griginomon" />
 
-    </it.speranzon_galligioni.pokemoncemento.PokemonScontro>
+    </it.speranzon_galligioni.pokemoncemento.gameObject.PokemonScontro>
 
-    <it.speranzon_galligioni.pokemoncemento.PokemonScontro
+    <it.speranzon_galligioni.pokemoncemento.gameObject.PokemonScontro
         android:id="@+id/friendly-side"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -176,17 +176,63 @@
             app:layout_constraintVertical_bias="0.0"
             tools:ignore="DuplicateIds"
             tools:srcCompat="@drawable/griginomon" />
-    </it.speranzon_galligioni.pokemoncemento.PokemonScontro>
+    </it.speranzon_galligioni.pokemoncemento.gameObject.PokemonScontro>
 
-    <include
-        layout="@layout/attacks"
+    <TextView
+        android:id="@+id/txt_attack_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bangers"
+        android:padding="5dp"
+        android:scaleX="0"
+        android:scaleY="0"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="OZIONO " />
+
+    <LinearLayout
+        android:id="@+id/atcks"
         android:layout_width="0dp"
         android:layout_height="80dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Button" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Button" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Button" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Button" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

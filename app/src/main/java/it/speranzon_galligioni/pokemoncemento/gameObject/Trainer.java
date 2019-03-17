@@ -1,6 +1,10 @@
-package it.speranzon_galligioni.pokemoncemento;
+package it.speranzon_galligioni.pokemoncemento.gameObject;
 
 import android.content.Context;
+
+import it.speranzon_galligioni.pokemoncemento.GameCostants;
+import it.speranzon_galligioni.pokemoncemento.R;
+import it.speranzon_galligioni.pokemoncemento.enums.Direction;
 
 public class Trainer extends GameElement {
 	private Direction lookDirection;

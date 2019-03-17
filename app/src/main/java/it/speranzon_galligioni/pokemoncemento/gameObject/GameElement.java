@@ -1,9 +1,11 @@
-package it.speranzon_galligioni.pokemoncemento;
+package it.speranzon_galligioni.pokemoncemento.gameObject;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatImageView;
 import android.widget.RelativeLayout;
+
+import it.speranzon_galligioni.pokemoncemento.GameCostants;
 
 public class GameElement extends AppCompatImageView {
 	public GameElement(Context context, int x, int y, int height, int width, int image) {

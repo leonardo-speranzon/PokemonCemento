@@ -1,7 +1,9 @@
-package it.speranzon_galligioni.pokemoncemento;
+package it.speranzon_galligioni.pokemoncemento.enums;
+
+import it.speranzon_galligioni.pokemoncemento.R;
 
 public enum Pokemon{
-	GRIGINOMON("Grigimon",120,R.drawable.griginomon),
+	GRIGINOMON("Grigimon",120, R.drawable.griginomon),
 	CEMENTOKARP("Cementokarp",50,R.drawable.cementokarp);
 
 	private int hp,img;
