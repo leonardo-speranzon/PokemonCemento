@@ -104,9 +104,10 @@ public class PokemonScontro extends ConstraintLayout {
 	 * @return true se il pokemon è morto
 	 */
 	public void damage(int hpDamage,final Runnable onNotDied, final Runnable onDied){
-		currentHp-=hpDamage;
+		int previousHp=currentHp;
+		currentHp=Math.max(currentHp-hpDamage,0);
 
-		PokemonDetailsAnimation lifeAnim = new PokemonDetailsAnimation(detailsBar, (currentHp+hpDamage)*100, currentHp*100);
+		PokemonDetailsAnimation lifeAnim = new PokemonDetailsAnimation(detailsBar, previousHp*100, currentHp*100);
 		lifeAnim.setDuration(1000);
 		lifeAnim.setAnimationListener(new Animation.AnimationListener() {
 			@Override

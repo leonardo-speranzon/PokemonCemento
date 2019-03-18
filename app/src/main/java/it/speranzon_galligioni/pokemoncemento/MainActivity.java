@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 			public boolean onTouch(View v, MotionEvent event) {
 				Direction dir = getDirectionJoystick(event);
 				if (dir == Direction.NONE) {
-					game.stopMove(game.getCurrentDirection());
+					game.stopMove();
 					return true;
 				}
 				switch (event.getAction()) {
@@ -80,13 +80,11 @@ public class MainActivity extends AppCompatActivity {
 						return true;
 					case MotionEvent.ACTION_MOVE:
 						if (game.getCurrentDirection() != dir) {
-							//game.stopMove(game.getCurrentDirection());
 							game.changeDirection(dir);
-							game.startMove(dir);
 						}
 						return true;
 					case MotionEvent.ACTION_UP:
-						game.stopMove(dir);
+						game.stopMove();
 						return true;
 				}
 				return false;

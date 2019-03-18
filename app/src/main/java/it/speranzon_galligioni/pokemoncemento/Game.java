@@ -57,7 +57,7 @@ public class Game {
 		map.setLayoutParams(lp);
 
 		handler = new Handler();
-		currentDirection = Direction.NONE;
+		currentDirection = Direction.UP;
 
 		for (Obstacle obs : obstacles)
 			map.addView(obs);
@@ -75,7 +75,7 @@ public class Game {
 		if (!mustMove) {
 			//Log.d("PROVA", "INIZIO : " + d.toString());
 			mustMove = true;
-			final boolean[] mustRotate = {currentDirection != d};
+			final boolean[] mustRotate = {player.getRotation() != d.getDegrees()};
 			Log.d("PROVA",""+mustRotate[0]);
 			currentDirection=d;
 
@@ -110,23 +110,25 @@ public class Game {
 	/**
 	 * ferma lo spostamento del Player
 	 *
-	 * @param d direzione dello spostamento
 	 */
-	public void stopMove(Direction d) {
-		if (currentDirection == d) {
-			//Log.d("PROVA", "FINE   : " + d.toString());
+	public void stopMove() {
 			mustMove = false;
-		}
 	}
 	public void changeDirection(Direction d){
 		currentDirection=d;
+		mustMove=true;
+		if(!isMoving && canMove()==1) {
+				player.setRotation(currentDirection.getDegrees());
+				movePlayer(currentDirection);
+
+		}
 	}
 
 	/**
 	 * Muove il Player se esso è possibile
 	 *
 	 * @return
-	 * 		-1:no non può muoversi
+	 * 		<0:no non può muoversi
 	 * 		 0:in attesa
 	 * 		+1:può muoversi
 	 */
@@ -147,14 +149,14 @@ public class Game {
 
 		//controlla che il Player non esca dalla mappa
 		if (!checkMapBounds(currentDirection))
-			return -1;
+			return -2;
 		//controlla che il Player non entri in un ostacolo o allenatore
 		if (checkCollisions(currentDirection))
-			return -1;
+			return -3;
 
 		//controlla che il player non sia stato bloccato
 		if(player.isBlocked())
-			return -1;
+			return -4;
 
 
 		return 1;
@@ -238,7 +240,7 @@ public class Game {
 						//controlla che il Player non venga visto dagli altri allenatori
 						final Trainer t;
 						if ((t = checkTrainer(currentDirection)) != null) {
-							stopMove(getCurrentDirection());
+							stopMove();
 							player.block();
 							isMoving=false;
 
