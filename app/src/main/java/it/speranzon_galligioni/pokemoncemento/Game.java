@@ -195,8 +195,8 @@ public class Game {
 	}
 
 	public Trainer checkTrainer(Direction direction) {
-		int moveX = (int) (getX() + -direction.getX());
-		int moveY = (int) (getY() + -direction.getY());
+		int moveX = (int) (getX());
+		int moveY = (int) (getY());
 		for (Trainer t : trainers)
 			if (!t.isDisabled() && t.checkView(player, moveX, moveY))
 				return t;
