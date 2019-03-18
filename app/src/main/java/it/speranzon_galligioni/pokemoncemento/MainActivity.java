@@ -40,12 +40,15 @@ public class MainActivity extends AppCompatActivity {
 	private Game game;
 	private ConstraintLayout root, joystick;
 	private TextController txtController;
-
+	private Pokemon myPokemon;
 
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		myPokemon   = (Pokemon) getIntent().getSerializableExtra("pokemon");
+
 		setContentView(R.layout.activity_main);
 
 		GameCostants.BOX_SIZE = (int) TypedValue.applyDimension(
@@ -245,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 				//setContentView(R.layout.activity_scontro);
-				Scontro s=new Scontro(Pokemon.GRIGINOMON,Pokemon.CEMENTOKARP,new Runnable() {
+				Scontro s=new Scontro(myPokemon,Pokemon.CEMENTOKARP,new Runnable() {
 					@Override
 					public void run() {
 						View view=main;

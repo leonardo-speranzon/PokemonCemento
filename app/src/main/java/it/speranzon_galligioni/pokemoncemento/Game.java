@@ -28,13 +28,6 @@ public class Game {
 	private boolean isMoving, mustMove, running;
 	private Runnable onScontro;
 
-	/*public Game(RelativeLayout map, int height, int width, Player player, TextController txtController,Runnable onScontro ,Context context) {
-		this(map, height, width, new ArrayList<Obstacle>(), new ArrayList<Trainer>(), player, txtController, onScontro, context);
-	}
-
-	public Game(RelativeLayout map, int height, int width, List<Obstacle> obstacles, List<Trainer> trainers, Player player, TextController txtController,Runnable onScontro, Context context) {
-		this(map, height, width, 0, 0, new ArrayList<Obstacle>(), trainers, player, txtController,onScontro, context);
-	}*/
 
 	public Game(RelativeLayout map, int height, int width, int playerInitX, int playerInitY, List<Obstacle> obstacles, List<Trainer> trainers, Player player, TextController txtController,Runnable onScontro, Context context) {
 		this.obstacles = new ArrayList<>(obstacles);
@@ -194,7 +187,11 @@ public class Game {
 		return false;
 	}
 
-	public Trainer checkTrainer(Direction direction) {
+	/**
+	 * controlla che non il player non venga visto da allenatori
+	 * @return se visto da allenatore
+	 */
+	public Trainer checkTrainer() {
 		int moveX = (int) (getX());
 		int moveY = (int) (getY());
 		for (Trainer t : trainers)
@@ -239,7 +236,7 @@ public class Game {
 
 						//controlla che il Player non venga visto dagli altri allenatori
 						final Trainer t;
-						if ((t = checkTrainer(currentDirection)) != null) {
+						if ((t = checkTrainer()) != null) {
 							stopMove();
 							player.block();
 							isMoving=false;
@@ -338,20 +335,23 @@ public class Game {
 		return map.getHeight();
 	}
 
+	/**
+	 * ritoran la direzione corrente
+	 * @return
+	 */
 	public Direction getCurrentDirection() {
 		return currentDirection;
 	}
 
+	/**
+	 * ritorna se sta correndo
+	 * @return
+	 */
 	public boolean isRunning() {
 		return running;
 	}
 
 	public void setRunning(boolean running) {
 		this.running = running;
-	}
-
-	public void scontro(){
-
-
 	}
 }

@@ -97,18 +97,14 @@ public class Scontro {
 
 	}
 
+	/**
+	 * attacco del nemico
+	 */
 	void enemyAttack(){
 
 		Attack atck=enemyAttacks[r.nextInt(4)];
 		txtAttackName.setText(atck.toString().replace("_"," \n")+' ');
 		txtAttackNameAnimator.start();
 		enemy.attackAnim(()->friendly.damage(atck.getDamage(),()->turno=true,()->onFinish.run()));
-	}
-
-	private boolean notEquals(int a,int... bs){
-		for(int b:bs)
-			if(b==a)
-				return false;
-		return true;
 	}
 }

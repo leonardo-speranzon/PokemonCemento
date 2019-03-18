@@ -44,7 +44,10 @@ public class PokemonScontro extends ConstraintLayout {
 
 	}
 
-
+	/**
+	 * Initializza PokemonScontro
+	 * @param pokemon pokemon da usare
+	 */
 	public void init(Pokemon pokemon){
 		imgPokemon = this.findViewById(R.id.pokemon);
 		detailsBar = this.findViewById(R.id.details);
@@ -68,9 +71,18 @@ public class PokemonScontro extends ConstraintLayout {
 
 	}
 
+	/**
+	 * setta cosa fare in caso di tocco sul pokemon
+	 * @param tl
+	 */
 	public void setOnPokemonTouchListener(OnTouchListener tl){
 		imgPokemon.setOnTouchListener(tl);
 	}
+
+	/**
+	 * fa partire l'animazione
+	 * @param onFinish Runnable da eseguire a fine animazione
+	 */
 	public void attackAnim(final Runnable onFinish){
 		anim.removeAllListeners();
 		anim.addListener(new Animator.AnimatorListener() {
