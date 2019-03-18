@@ -1,7 +1,6 @@
 package it.speranzon_galligioni.pokemoncemento;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.res.XmlResourceParser;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -29,7 +28,6 @@ import it.speranzon_galligioni.pokemoncemento.enums.ObstacleTypes;
 import it.speranzon_galligioni.pokemoncemento.enums.Pokemon;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Obstacle;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Player;
-import it.speranzon_galligioni.pokemoncemento.gameObject.PokemonScontro;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Trainer;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		myPokemon   = (Pokemon) getIntent().getSerializableExtra("pokemon");
+		myPokemon = (Pokemon) getIntent().getSerializableExtra("pokemon");
 
 		setContentView(R.layout.activity_main);
 
@@ -238,24 +236,22 @@ public class MainActivity extends AppCompatActivity {
 		Game game = new Game(mapL, mapHeight, mapWidth, playerStartX, playerStartY, obstacles, trainers, p, txtController, new Runnable() {
 			@Override
 			public void run() {
-				final View main=findViewById(R.id.root);
+				final View main = findViewById(R.id.root);
 
-
-				LayoutInflater inflator=getLayoutInflater();
-				View view=inflator.inflate(R.layout.activity_scontro,null,false);
+				LayoutInflater inflator = getLayoutInflater();
+				View view = inflator.inflate(R.layout.activity_scontro, null, false);
 				view.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_in_left));
 				setContentView(view);
 
 
 				//setContentView(R.layout.activity_scontro);
-				Scontro s=new Scontro(myPokemon,Pokemon.CEMENTOKARP,new Runnable() {
+				Scontro s = new Scontro(myPokemon, Pokemon.CEMENTOKARP, new Runnable() {
 					@Override
 					public void run() {
-						View view=main;
-						view.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_out_right));
-						setContentView(view);
+						main.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_out_right));
+						setContentView(main);
 					}
-				},MainActivity.this);
+				}, MainActivity.this);
 			}
 		}, this);
 		return game;

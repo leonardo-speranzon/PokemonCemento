@@ -84,7 +84,7 @@ public class TextController {
 				if (c < chars.length) {
 					String s = dialog.getText().toString() + chars[c++];
 					dialog.setText(s);
-					if (c == 0 || chars[c - 1] != '.')
+					if (c == 0 || (chars[c - 1] != '.' && chars[c - 1] != '!' && chars[c - 1] != '?'))
 						handler.postDelayed(this, GameCostants.DIALOG_SPEED);
 					else
 						canTouch = c < chars.length;

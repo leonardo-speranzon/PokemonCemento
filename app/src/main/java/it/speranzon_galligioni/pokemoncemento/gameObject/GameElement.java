@@ -29,14 +29,17 @@ public class GameElement extends AppCompatImageView {
 
 	/**
 	 * ritorna la X dell'elemento già divisa per la grandezza del quadrato
+	 *
 	 * @return X
 	 */
 	@Override
 	public float getX() {
 		return super.getX() / GameCostants.BOX_SIZE;
 	}
+
 	/**
 	 * ritorna la Y dell'elemento già divisa per la grandezza del quadrato
+	 *
 	 * @return Y
 	 */
 	@Override
@@ -46,13 +49,16 @@ public class GameElement extends AppCompatImageView {
 
 	/**
 	 * ritorna la larghezza dell'elemento già divisa per la grandezza del quadrato
+	 *
 	 * @return larghezza
 	 */
 	public int getCWidth() {
 		return getWidth() / GameCostants.BOX_SIZE;
 	}
+
 	/**
 	 * ritorna l'altezza dell'elemento già divisa per la grandezza del quadrato
+	 *
 	 * @return altezza
 	 */
 	public int getCHeight() {

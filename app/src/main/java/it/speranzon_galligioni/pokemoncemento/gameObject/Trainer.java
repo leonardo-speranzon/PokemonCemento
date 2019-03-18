@@ -34,9 +34,10 @@ public class Trainer extends GameElement {
 
 	/**
 	 * Controlla se il player viene visto dall'allenatore
+	 *
 	 * @param player giocatore da controllare
-	 * @param moveX	posizione X
-	 * @param moveY posizione Y
+	 * @param moveX  posizione X
+	 * @param moveY  posizione Y
 	 * @return se è stato visto
 	 */
 	public boolean checkView(Player player, int moveX, int moveY) {
@@ -49,6 +50,7 @@ public class Trainer extends GameElement {
 
 	/**
 	 * ritorna il nome dell'allenatore
+	 *
 	 * @return
 	 */
 	public String getName() {
@@ -58,15 +60,23 @@ public class Trainer extends GameElement {
 	/**
 	 * abilita l'allenatore
 	 */
-	public void enable(){disabled=false;}
+	public void enable() {
+		disabled = false;
+	}
+
 	/**
 	 * disabilita l'allenatore
 	 */
-	public void disable(){disabled=true;}
+	public void disable() {
+		disabled = true;
+	}
 
 	/**
 	 * ritorna se l'allenatore è disabilitato
+	 *
 	 * @return disabled
 	 */
-	public boolean isDisabled(){return disabled;}
+	public boolean isDisabled() {
+		return disabled;
+	}
 }

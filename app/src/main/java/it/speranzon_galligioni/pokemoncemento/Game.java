@@ -2,7 +2,6 @@ package it.speranzon_galligioni.pokemoncemento;
 
 import android.animation.Animator;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.Log;
 import android.view.ViewPropertyAnimator;
@@ -29,7 +28,7 @@ public class Game {
 	private Runnable onScontro;
 
 
-	public Game(RelativeLayout map, int height, int width, int playerInitX, int playerInitY, List<Obstacle> obstacles, List<Trainer> trainers, Player player, TextController txtController,Runnable onScontro, Context context) {
+	public Game(RelativeLayout map, int height, int width, int playerInitX, int playerInitY, List<Obstacle> obstacles, List<Trainer> trainers, Player player, TextController txtController, Runnable onScontro, Context context) {
 		this.obstacles = new ArrayList<>(obstacles);
 		this.trainers = new ArrayList<>(trainers);
 		this.player = player;
@@ -69,29 +68,29 @@ public class Game {
 			//Log.d("PROVA", "INIZIO : " + d.toString());
 			mustMove = true;
 			final boolean[] mustRotate = {player.getRotation() != d.getDegrees()};
-			Log.d("PROVA",""+mustRotate[0]);
-			currentDirection=d;
+			Log.d("PROVA", "" + mustRotate[0]);
+			currentDirection = d;
 
 			handler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
 
-					switch (canMove()){
+					switch (canMove()) {
 						case 1:
-							if(mustRotate[0]){
+							if (mustRotate[0]) {
 								player.setRotation(currentDirection.getDegrees());
-								mustRotate[0] =false;
-								handler.postDelayed(this,200);
-							}else
+								mustRotate[0] = false;
+								handler.postDelayed(this, 200);
+							} else
 								movePlayer(currentDirection);
 							break;
 						case 0:
 							handler.postDelayed(this, 50);
 							break;
 						case -1:
-							if(mustRotate[0]){
+							if (mustRotate[0]) {
 								player.setRotation(currentDirection.getDegrees());
-								mustRotate[0] =false;
+								mustRotate[0] = false;
 							}
 					}
 				}
@@ -102,17 +101,17 @@ public class Game {
 
 	/**
 	 * ferma lo spostamento del Player
-	 *
 	 */
 	public void stopMove() {
-			mustMove = false;
+		mustMove = false;
 	}
-	public void changeDirection(Direction d){
-		currentDirection=d;
-		mustMove=true;
-		if(!isMoving && canMove()==1) {
-				player.setRotation(currentDirection.getDegrees());
-				movePlayer(currentDirection);
+
+	public void changeDirection(Direction d) {
+		currentDirection = d;
+		mustMove = true;
+		if (!isMoving && canMove() == 1) {
+			player.setRotation(currentDirection.getDegrees());
+			movePlayer(currentDirection);
 
 		}
 	}
@@ -120,10 +119,9 @@ public class Game {
 	/**
 	 * Muove il Player se esso è possibile
 	 *
-	 * @return
-	 * 		<0:no non può muoversi
-	 * 		 0:in attesa
-	 * 		+1:può muoversi
+	 * @return <0:no non può muoversi
+	 * 0:in attesa
+	 * +1:può muoversi
 	 */
 	public int canMove() {
 		//Log.d("PROVA", "mW: " + game.getWidth() / GameCostants.BOX_SIZE + "  mH: " + game.getHeight() / GameCostants.BOX_SIZE);
@@ -148,7 +146,7 @@ public class Game {
 			return -3;
 
 		//controlla che il player non sia stato bloccato
-		if(player.isBlocked())
+		if (player.isBlocked())
 			return -4;
 
 
@@ -189,6 +187,7 @@ public class Game {
 
 	/**
 	 * controlla che non il player non venga visto da allenatori
+	 *
 	 * @return se visto da allenatore
 	 */
 	public Trainer checkTrainer() {
@@ -239,7 +238,7 @@ public class Game {
 						if ((t = checkTrainer()) != null) {
 							stopMove();
 							player.block();
-							isMoving=false;
+							isMoving = false;
 
 							float deltaX, deltaY = 0;
 							ViewPropertyAnimator trainerAnimation = t.animate();
@@ -284,10 +283,10 @@ public class Game {
 
 							//
 
-						} else{
+						} else {
 							isMoving = false;
-							if(canMove()==1 ){
-								if(direction!=currentDirection)
+							if (canMove() == 1) {
+								if (direction != currentDirection)
 									player.setRotation(currentDirection.getDegrees());
 								movePlayer(currentDirection);
 							}
@@ -337,6 +336,7 @@ public class Game {
 
 	/**
 	 * ritoran la direzione corrente
+	 *
 	 * @return
 	 */
 	public Direction getCurrentDirection() {
@@ -345,6 +345,7 @@ public class Game {
 
 	/**
 	 * ritorna se sta correndo
+	 *
 	 * @return
 	 */
 	public boolean isRunning() {
