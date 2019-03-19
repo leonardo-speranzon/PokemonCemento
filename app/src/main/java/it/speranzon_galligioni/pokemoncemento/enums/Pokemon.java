@@ -15,20 +15,37 @@ public enum Pokemon {
 	private int hp, img;
 	private String name;
 
+	/**
+	 * @param name
+	 * @param hp
+	 * @param img
+	 */
 	Pokemon(String name, int hp, int img) {
 		this.hp = hp;
 		this.img = img;
 		this.name = name;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public int getHp() {
 		return hp;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public int getImg() {
 		return img;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}

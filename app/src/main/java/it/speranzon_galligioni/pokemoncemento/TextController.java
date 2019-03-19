@@ -1,5 +1,6 @@
 package it.speranzon_galligioni.pokemoncemento;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
@@ -22,6 +23,11 @@ public class TextController {
 
 	private Handler handler;
 
+	/**
+	 * @param textLayout
+	 * @param controllers
+	 * @param context
+	 */
 	public TextController(ConstraintLayout textLayout, ConstraintLayout controllers, Context context) {
 		this.textLayout = textLayout;
 		this.controllers = controllers;
@@ -45,6 +51,10 @@ public class TextController {
 		}, 0);
 	}
 
+	/**
+	 *
+	 * @param show
+	 */
 	public void toggleDialog(boolean show) {
 		controllers.setVisibility(show ? View.INVISIBLE : View.VISIBLE);
 		textLayout.setVisibility(!show ? View.INVISIBLE : View.VISIBLE);
@@ -54,6 +64,11 @@ public class TextController {
 	private int c = 0;
 	private boolean canTouch = false;
 
+	/**
+	 * @param t
+	 * @param post
+	 */
+	@SuppressLint("ClickableViewAccessibility")
 	public void writeText(final Trainer t, final Runnable post) {
 
 		dialog.setText(t.getName() + "\n");
@@ -111,10 +126,18 @@ public class TextController {
 		}, 0);
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public ConstraintLayout getTextLayout() {
 		return textLayout;
 	}
 
+	/**
+	 *
+	 * @param show
+	 */
 	public void toggleTriangle(boolean show) {
 		triangle.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
 	}

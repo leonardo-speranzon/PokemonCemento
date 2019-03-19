@@ -8,10 +8,28 @@ import android.widget.RelativeLayout;
 import it.speranzon_galligioni.pokemoncemento.GameCostants;
 
 public class GameElement extends AppCompatImageView {
+
+	/**
+	 * @param context
+	 * @param x
+	 * @param y
+	 * @param height
+	 * @param width
+	 * @param image
+	 */
 	public GameElement(Context context, int x, int y, int height, int width, int image) {
 		this(context, x, y, height, width, context.getDrawable(image));
 	}
 
+	/**
+	 *
+	 * @param context
+	 * @param x
+	 * @param y
+	 * @param height
+	 * @param width
+	 * @param image
+	 */
 	public GameElement(Context context, int x, int y, int height, int width, Drawable image) {
 		super(context);
 		setLayoutParams(new RelativeLayout.LayoutParams(width * GameCostants.BOX_SIZE, height * GameCostants.BOX_SIZE));
@@ -21,6 +39,13 @@ public class GameElement extends AppCompatImageView {
 		setScaleType(ScaleType.FIT_XY);
 	}
 
+	/**
+	 *
+	 * @param player
+	 * @param moveX
+	 * @param moveY
+	 * @return
+	 */
 	public boolean checkCollision(Player player, int moveX, int moveY) {
 		//Log.d("OSTACOLO","playerX: "+player.getX()+", playerY: "+player.getY()+", moveX: "+moveX+", moveY: "+moveY+", obsX: "+getX()+", obsY: "+getY()+", obsWidth: "+getCWidth()+", obsHeight: "+getCHeight());
 		return (moveX + getX() <= player.getX() && moveX + getX() + getCWidth() >= player.getX() + 1

@@ -22,6 +22,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import it.speranzon_galligioni.pokemoncemento.enums.Direction;
 import it.speranzon_galligioni.pokemoncemento.enums.ObstacleTypes;
@@ -137,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
 		return Direction.NONE;
 	}
 
-
 	private void hideSystemUI() {
        /* final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -154,7 +154,12 @@ public class MainActivity extends AppCompatActivity {
 		onWindowFocusChanged(true);
 	}
 
-
+	/**
+	 * @param mapContainerId
+	 * @param mapId
+	 * @param xmlMapFile
+	 * @return
+	 */
 	public Game readXmlAndCreate(int mapContainerId, int mapId, int xmlMapFile) {
 
 		List<Obstacle> obstacles = new ArrayList<>();
@@ -245,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 				//setContentView(R.layout.activity_scontro);
-				Scontro s = new Scontro(myPokemon, Pokemon.CEMENTOKARP, new Runnable() {
+				new Scontro(myPokemon, Pokemon.values()[new Random().nextInt(Pokemon.values().length)], new Runnable() {
 					@Override
 					public void run() {
 						main.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_out_right));

@@ -310,26 +310,49 @@ public class Game {
 		//map.setY(map.getY() + direction.getY() * GameCostants.BOX_SIZE);
 	}
 
+	/**
+	 * @return
+	 */
 	public float getX() {
 		return map.getX() / GameCostants.BOX_SIZE;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public float getY() {
 		return map.getY() / GameCostants.BOX_SIZE;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public void setX(int x) {
 		map.setX(x * GameCostants.BOX_SIZE);
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public void setY(int y) {
 		map.setY(y * GameCostants.BOX_SIZE);
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public int getWidth() {
 		return map.getWidth();
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public int getHeight() {
 		return map.getHeight();
 	}

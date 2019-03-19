@@ -29,6 +29,12 @@ public class Scontro {
 	private Handler handler;
 	private Random r;
 
+	/**
+	 * @param friendlyPok
+	 * @param enemyPok
+	 * @param onFinish
+	 * @param context
+	 */
 	public Scontro(final Pokemon friendlyPok, final Pokemon enemyPok, final Runnable onFinish, Context context) {
 		this.onFinish = onFinish;
 		friendly = ((AppCompatActivity) context).findViewById(R.id.friendly_side);

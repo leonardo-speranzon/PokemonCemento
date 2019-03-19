@@ -15,6 +15,11 @@ public class PokemonDetailsAnimation extends Animation {
 	private float from;
 	private float to;
 
+	/**
+	 * @param detailsBar
+	 * @param from
+	 * @param to
+	 */
 	public PokemonDetailsAnimation(ConstraintLayout detailsBar, float from, float to) {
 		super();
 		life = detailsBar.findViewById(R.id.life);

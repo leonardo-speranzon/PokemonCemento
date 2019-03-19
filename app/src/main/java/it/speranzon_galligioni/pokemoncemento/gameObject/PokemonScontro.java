@@ -26,15 +26,29 @@ public class PokemonScontro extends ConstraintLayout {
 	private int hp, currentHp;
 	private AnimatorSet anim;
 
+	/**
+	 * @param context
+	 */
 	public PokemonScontro(Context context) {
 		super(context);
 	}
 
+	/**
+	 *
+	 * @param context
+	 * @param attrs
+	 * @param defStyleAttr
+	 */
 	public PokemonScontro(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 
 	}
 
+	/**
+	 *
+	 * @param context
+	 * @param attrs
+	 */
 	public PokemonScontro(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		TypedArray a = context.getTheme().obtainStyledAttributes(
