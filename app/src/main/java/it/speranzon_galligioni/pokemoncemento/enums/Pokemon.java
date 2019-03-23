@@ -16,9 +16,10 @@ public enum Pokemon {
 	private String name;
 
 	/**
-	 * @param name
-	 * @param hp
-	 * @param img
+	 * Costruttore di Pokemon
+	 * @param name nome del pokemon
+	 * @param hp punti vita
+	 * @param img immagine del pokemon
 	 */
 	Pokemon(String name, int hp, int img) {
 		this.hp = hp;
@@ -27,24 +28,24 @@ public enum Pokemon {
 	}
 
 	/**
-	 *
-	 * @return
+	 * Ritorna i punti vita del ookemon
+	 * @return punti vita
 	 */
 	public int getHp() {
 		return hp;
 	}
 
 	/**
-	 *
-	 * @return
+	 * Ritorna l'immagine del ookemon
+	 * @return punti vita
 	 */
 	public int getImg() {
 		return img;
 	}
 
 	/**
-	 *
-	 * @return
+	 * Ritorna il nome del ookemon
+	 * @return punti vita
 	 */
 	public String getName() {
 		return name;

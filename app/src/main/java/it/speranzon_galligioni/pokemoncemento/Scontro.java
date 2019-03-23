@@ -50,6 +50,7 @@ public class Scontro {
 		friendlyAttacks = new Attack[4];
 		enemyAttacks = new Attack[4];
 
+		//GENERAZIONE CASUALE ATTACCHI
 		for (int i = 0; i < 4; i++) {
 			Attack at;
 			do
@@ -65,9 +66,9 @@ public class Scontro {
 			enemyAttacks[i] = at;
 		}
 
-
 		friendly.init(friendlyPok);
 		enemy.init(enemyPok);
+
 		for (int i = 0; i < atcks.getChildCount(); i++) {
 			((Button) atcks.getChildAt(i)).setText(friendlyAttacks[i].toString().replace("_", " \n"));
 			atcks.getChildAt(i).setOnTouchListener(new View.OnTouchListener() {
@@ -109,12 +110,5 @@ public class Scontro {
 		txtAttackName.setText(atck.toString().replace("_", " \n") + ' ');
 		txtAttackNameAnimator.start();
 		enemy.attackAnim(() -> friendly.damage(atck.getDamage(), () -> turno = true, () -> onFinish.run()));
-	}
-
-	private boolean notEquals(int a, int... bs) {
-		for (int b : bs)
-			if (b == a)
-				return false;
-		return true;
 	}
 }

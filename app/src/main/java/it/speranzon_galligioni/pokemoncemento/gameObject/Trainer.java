@@ -13,34 +13,24 @@ public class Trainer extends GameElement {
 	private boolean disabled;
 
 	/**
-	 * @param context
-	 * @param x
-	 * @param y
-	 * @param lookDirection
-	 * @param name
+	 * Costruttore di Trainer
+	 * @param context Context
+	 * @param x posizione X
+	 * @param y posizione Y
+	 * @param lookDirection direzione in cui l'allenatore staguardando
+	 * @param name nome dell'allenatore
 	 */
 	public Trainer(Context context, int x, int y, Direction lookDirection, String name) {
 		super(context, x, y, 1, 1, R.drawable.trainer);
 
-		switch (lookDirection) {
-			case DOWN:
-				setRotation(180);
-				break;
-			case LEFT:
-				setRotation(-90);
-				break;
-			case RIGHT:
-				setRotation(90);
-				break;
-
-		}
+		setRotation(lookDirection.getDegrees());
 
 		this.lookDirection = lookDirection;
 		this.name = name;
 	}
 
 	/**
-	 * Controlla se il player viene visto dall'allenatore
+	 * Controlla se il giocatore viene visto dall'allenatore
 	 *
 	 * @param player giocatore da controllare
 	 * @param moveX  posizione X

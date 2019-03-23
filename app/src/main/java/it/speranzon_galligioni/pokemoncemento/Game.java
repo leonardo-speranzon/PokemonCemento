@@ -116,37 +116,27 @@ public class Game {
 	/**
 	 * Muove il Player se esso è possibile
 	 *
-	 * @return <0:no non può muoversi
-	 * 0:in attesa
-	 * +1:può muoversi
+	 * @return  <0:no non può muoversi
+	 * 			 0:in attesa
+	 * 			+1:può muoversi
 	 */
 	public int canMove() {
-		//Log.d("PROVA", "mW: " + game.getWidth() / GameCostants.BOX_SIZE + "  mH: " + game.getHeight() / GameCostants.BOX_SIZE);
-		//Log.d("PROVA","Bordi: "+!game.checkMapBounds(d) +"  Collisioni: "+game.checkCollisions(d));
-		//Log.d("PROVA", "R-MOSSO: " + currentDirection.toString());
 
 		//controlla che non si stia già muovendo
 		if (isMoving)
 			return 0;
-
-
 		//controlla se vi deve essere un movimento
-		if (!mustMove) {
+		if (!mustMove)
 			return -1;
-		}
-
 		//controlla che il Player non esca dalla mappa
 		if (!checkMapBounds(currentDirection))
 			return -2;
 		//controlla che il Player non entri in un ostacolo o allenatore
 		if (checkCollisions(currentDirection))
 			return -3;
-
 		//controlla che il player non sia stato bloccato
 		if (player.isBlocked())
 			return -4;
-
-
 		return 1;
 
 	}
@@ -303,8 +293,6 @@ public class Game {
 		player.setImageDrawable(context.getDrawable(R.drawable.player_1));
 		handler.postDelayed(() -> player.setImageDrawable(context.getDrawable(R.drawable.player_2)), animationDuration / 2);
 		handler.postDelayed(() -> player.setImageDrawable(context.getDrawable(R.drawable.player_0)), animationDuration);
-		//map.setX(map.getX() + direction.getX() * GameCostants.BOX_SIZE);
-		//map.setY(map.getY() + direction.getY() * GameCostants.BOX_SIZE);
 	}
 
 	/**

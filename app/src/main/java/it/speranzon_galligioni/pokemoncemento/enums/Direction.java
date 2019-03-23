@@ -10,9 +10,10 @@ public enum Direction {
 	private int x, y, degrees;
 
 	/**
-	 * @param x
-	 * @param y
-	 * @param degrees
+	 * Costruttore di Direction
+	 * @param x movimento X
+	 * @param y movimento Y
+	 * @param degrees gradi per la rotazione
 	 */
 	Direction(int x, int y, int degrees) {
 		this.x = x;
@@ -21,24 +22,24 @@ public enum Direction {
 	}
 
 	/**
-	 *
-	 * @return
+	 * Ritorna il movimento X
+	 * @return x
 	 */
 	public int getX() {
 		return x;
 	}
 
 	/**
-	 *
-	 * @return
+	 * Ritorna il movimento Y
+	 * @return y
 	 */
 	public int getY() {
 		return y;
 	}
 
 	/**
-	 *
-	 * @return
+	 * Ritorna i gradi per la rotazione
+	 * @return gradi
 	 */
 	public int getDegrees() {
 		return degrees;
