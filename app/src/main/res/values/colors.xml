@@ -3,6 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="appBackground">#EEE</color>
+
     <color name="colorControllerIn">#b333</color>
     <color name="colorControllerOut">#b111</color>
 

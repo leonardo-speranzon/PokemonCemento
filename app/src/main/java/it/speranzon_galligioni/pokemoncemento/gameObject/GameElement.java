@@ -21,8 +21,14 @@ public class GameElement extends AppCompatImageView {
 		setScaleType(ScaleType.FIT_XY);
 	}
 
+	/**
+	 * Controlla se avverrebbe una collisione se il giocatore si spostasse in una certa direzione
+	 * @param player giocatore
+	 * @param moveX posizione futura X della mappa
+	 * @param moveY posizione futura Y della mappa
+	 * @return true se la collisione avverrebbe
+	 */
 	public boolean checkCollision(Player player, int moveX, int moveY) {
-		//Log.d("OSTACOLO","playerX: "+player.getX()+", playerY: "+player.getY()+", moveX: "+moveX+", moveY: "+moveY+", obsX: "+getX()+", obsY: "+getY()+", obsWidth: "+getCWidth()+", obsHeight: "+getCHeight());
 		return (moveX + getX() <= player.getX() && moveX + getX() + getCWidth() >= player.getX() + 1
 				&& moveY + getY() <= player.getY() && moveY + getY() + getCHeight() >= player.getY() + 1);
 	}

@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/appBackground"
+    android:backgroundTintMode="add">
 
     <it.speranzon_galligioni.pokemoncemento.gameObject.PokemonScontro
         android:id="@+id/enemy_side"
@@ -189,6 +191,7 @@
         android:padding="5dp"
         android:scaleX="0"
         android:scaleY="0"
+        android:textAlignment="center"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"

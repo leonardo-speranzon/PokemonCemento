@@ -74,24 +74,21 @@ public class Game {
 			handler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
-
-					switch (canMove()) {
-						case 1:
-							if (mustRotate[0]) {
-								player.setRotation(currentDirection.getDegrees());
-								mustRotate[0] = false;
-								handler.postDelayed(this, 200);
-							} else
-								movePlayer(currentDirection);
-							break;
-						case 0:
-							handler.postDelayed(this, 50);
-							break;
-						case -1:
-							if (mustRotate[0]) {
-								player.setRotation(currentDirection.getDegrees());
-								mustRotate[0] = false;
-							}
+					int cm = canMove();
+					if (cm == 1) {
+						if (mustRotate[0]) {
+							player.setRotation(currentDirection.getDegrees());
+							mustRotate[0] = false;
+							handler.postDelayed(this, 200);
+						} else
+							movePlayer(currentDirection);
+					} else if (cm == 0)
+						handler.postDelayed(this, 50);
+					else if (cm<0){
+						if (mustRotate[0]) {
+							player.setRotation(currentDirection.getDegrees());
+							mustRotate[0] = false;
+						}
 					}
 				}
 			}, 0);

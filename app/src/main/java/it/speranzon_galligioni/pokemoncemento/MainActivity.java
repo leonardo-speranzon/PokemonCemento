@@ -256,4 +256,10 @@ public class MainActivity extends AppCompatActivity {
 		}, this);
 		return game;
 	}
+	@Override
+	public void onBackPressed() {
+		//NON FA NIENTE
+	}
+
+
 }
