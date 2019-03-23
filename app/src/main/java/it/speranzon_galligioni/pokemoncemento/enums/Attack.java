@@ -22,7 +22,8 @@ public enum Attack {
 	ANDROID_MISSING_R(35),
 	ELICOTTERO(12),
 	DUB(5),
-	LUMEN(10);
+	LUMEN(10),
+	SPLASH(1);
 
 	private int damage;
 
