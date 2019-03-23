@@ -8,14 +8,25 @@ public enum ObstacleTypes {
 
 	public final int drawableRes;
 
+	/**
+	 * @param res
+	 */
 	ObstacleTypes(int res) {
 		drawableRes = res;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public int getDrawableRes() {
 		return drawableRes;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public static ObstacleTypes getDefault() {
 		return MOUNTAIN;
 	}

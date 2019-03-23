@@ -12,6 +12,13 @@ public class Trainer extends GameElement {
 	private String name;
 	private boolean disabled;
 
+	/**
+	 * @param context
+	 * @param x
+	 * @param y
+	 * @param lookDirection
+	 * @param name
+	 */
 	public Trainer(Context context, int x, int y, Direction lookDirection, String name) {
 		super(context, x, y, 1, 1, R.drawable.trainer);
 

@@ -26,10 +26,17 @@ public enum Attack {
 
 	private int damage;
 
+	/**
+	 * @param damage
+	 */
 	Attack(int damage) {
 		this.damage = damage;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public int getDamage() {
 		return damage;
 	}

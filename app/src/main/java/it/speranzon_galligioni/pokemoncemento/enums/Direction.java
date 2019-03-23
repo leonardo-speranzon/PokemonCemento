@@ -9,20 +9,37 @@ public enum Direction {
 
 	private int x, y, degrees;
 
-	private Direction(int x, int y, int degrees) {
+	/**
+	 * @param x
+	 * @param y
+	 * @param degrees
+	 */
+	Direction(int x, int y, int degrees) {
 		this.x = x;
 		this.y = y;
 		this.degrees = degrees;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public int getX() {
 		return x;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public int getY() {
 		return y;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public int getDegrees() {
 		return degrees;
 	}
