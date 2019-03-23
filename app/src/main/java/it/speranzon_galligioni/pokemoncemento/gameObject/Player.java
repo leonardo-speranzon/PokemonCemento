@@ -12,23 +12,23 @@ public class Player extends GameElement {
 	}
 
 	/**
-	 * blocca il player
+	 * blocca il giocatore
 	 */
 	public void block() {
 		blocked = true;
 	}
 
 	/**
-	 * sblocca il player
+	 * sblocca il giocatore
 	 */
 	public void unlock() {
 		blocked = false;
 	}
 
 	/**
-	 * ritoran se il player è bloccato
+	 * ritoran se il giocatore è bloccato
 	 *
-	 * @return
+	 * @return true se il giocatore è bloccato
 	 */
 	public boolean isBlocked() {
 		return blocked;

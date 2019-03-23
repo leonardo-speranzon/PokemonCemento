@@ -38,7 +38,6 @@ public class StartActivity extends AppCompatActivity {
 					return;
 				Intent i = new Intent(getApplicationContext(), MainActivity.class);
 				i.putExtra("pokemon", selectedPokemon);
-				Log.d("PROVA", selectedPokemon.toString());
 				startActivity(i);
 			}
 		});
