@@ -3,7 +3,6 @@ package it.speranzon_galligioni.pokemoncemento.gameObject;
 import android.content.Context;
 
 import it.speranzon_galligioni.pokemoncemento.GameCostants;
-import it.speranzon_galligioni.pokemoncemento.R;
 import it.speranzon_galligioni.pokemoncemento.enums.Direction;
 
 public class Trainer extends GameElement {
@@ -20,8 +19,8 @@ public class Trainer extends GameElement {
 	 * @param lookDirection direzione in cui l'allenatore staguardando
 	 * @param name nome dell'allenatore
 	 */
-	public Trainer(Context context, int x, int y, Direction lookDirection, String name) {
-		super(context, x, y, 1, 1, R.drawable.trainer);
+	public Trainer(Context context, int x, int y, Direction lookDirection, String name, int drawable) {
+		super(context, x, y, 1, 1, drawable);
 
 		setRotation(lookDirection.getDegrees());
 

@@ -198,8 +198,9 @@ public class MainActivity extends AppCompatActivity {
 						int y = xpp.getAttributeIntValue(null, "y", 0);
 						String dir = xpp.getAttributeValue(null, "direction");
 						String name = xpp.getAttributeValue(null, "name");
+						int drawable = xpp.getAttributeIntValue(null, "genere", 0) == 0 ? R.drawable.trainerm_0 : R.drawable.trainerf_0;
 						Log.d("PROVA", name + "");
-						trainers.add(new Trainer(this, x, y, Direction.valueOf(dir), name));
+						trainers.add(new Trainer(this, x, y, Direction.valueOf(dir), name, drawable));
 					}
 				}
 				eventType = xpp.next();

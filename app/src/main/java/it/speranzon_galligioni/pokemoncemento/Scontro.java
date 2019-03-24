@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -51,20 +52,15 @@ public class Scontro {
 		enemyAttacks = new Attack[4];
 
 		//GENERAZIONE CASUALE ATTACCHI
-		for (int i = 0; i < 4; i++) {
-			Attack at;
-			do
-				at = Attack.values()[r.nextInt(Attack.values().length)];
-			while (Arrays.binarySearch(Arrays.copyOf(friendlyAttacks, i), at) >= 0);
-			friendlyAttacks[i] = at;
-		}
-		for (int i = 0; i < 4; i++) {
-			Attack at;
-			do
-				at = Attack.values()[r.nextInt(Attack.values().length)];
-			while (Arrays.binarySearch(Arrays.copyOf(enemyAttacks, i), at) >= 0);
-			enemyAttacks[i] = at;
-		}
+		ArrayList<Attack> allAttak = new ArrayList<>(Arrays.asList(Attack.values()));
+		for (int i = 0; i < 4; i++)
+			friendlyAttacks[i] = allAttak.remove(r.nextInt(allAttak.size()));
+
+		allAttak = new ArrayList<>(Arrays.asList(Attack.values()));
+		for (int i = 0; i < 4; i++)
+			enemyAttacks[i] = allAttak.remove(r.nextInt(allAttak.size()));
+
+		allAttak.clear();
 
 		friendly.init(friendlyPok);
 		enemy.init(enemyPok);
@@ -105,7 +101,6 @@ public class Scontro {
 	 * attacco del nemico
 	 */
 	void enemyAttack() {
-
 		Attack atck = enemyAttacks[r.nextInt(4)];
 		txtAttackName.setText(atck.toString().replace("_", " \n") + ' ');
 		txtAttackNameAnimator.start();

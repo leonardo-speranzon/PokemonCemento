@@ -24,9 +24,11 @@ public class TextController {
 	private Handler handler;
 
 	/**
-	 * @param textLayout
-	 * @param controllers
-	 * @param context
+	 * Costruttore di TextController
+	 *
+	 * @param textLayout  ConstraintLayout dell'area dei dialoghi
+	 * @param controllers ConstraintLayout dell'area dei controlli del player
+	 * @param context     Context
 	 */
 	public TextController(ConstraintLayout textLayout, ConstraintLayout controllers, Context context) {
 		this.textLayout = textLayout;
@@ -52,8 +54,9 @@ public class TextController {
 	}
 
 	/**
+	 * Visializza/Nasconde i ConstraintLayout invertendoli
 	 *
-	 * @param show
+	 * @param show Se true rende visibile il dialogo e nasconde i controlli, se false fa il contrario
 	 */
 	public void toggleDialog(boolean show) {
 		controllers.setVisibility(show ? View.INVISIBLE : View.VISIBLE);
@@ -65,8 +68,10 @@ public class TextController {
 	private boolean canTouch = false;
 
 	/**
-	 * @param t
-	 * @param post
+	 * Gestisce la scrittura del dialogo spezzandolo ad ogni punto
+	 *
+	 * @param t    Trainer con cui si è interagito
+	 * @param post Runnable che viene richiamato alla fine del dialogo, dopo l'ultimo tocco
 	 */
 	@SuppressLint("ClickableViewAccessibility")
 	public void writeText(final Trainer t, final Runnable post) {
@@ -76,7 +81,13 @@ public class TextController {
 		canTouch = false;
 		toggleTriangle(false);
 
-		final char[] chars = context.getString(context.getResources().getIdentifier(t.getName(), "string", context.getPackageName())).toCharArray();
+		String s;
+		try {
+			s = context.getString(context.getResources().getIdentifier(t.getName(), "string", context.getPackageName()));
+		} catch (Exception exc) {
+			s = "Lotta contro di me!";
+		}
+		final char[] chars = s.toCharArray();
 
 		textLayout.setOnTouchListener(new View.OnTouchListener() {
 			@Override
@@ -115,7 +126,8 @@ public class TextController {
 								case MotionEvent.ACTION_UP:
 									c = 0;
 									toggleDialog(false);
-									post.run();
+									if (post != null)
+										post.run();
 									return true;
 							}
 							return false;
@@ -127,16 +139,18 @@ public class TextController {
 	}
 
 	/**
+	 * Ritorna il ConstraintLayout del dialogo
 	 *
-	 * @return
+	 * @return ConstraintLayout del dialogo
 	 */
 	public ConstraintLayout getTextLayout() {
 		return textLayout;
 	}
 
 	/**
+	 * Visualizza/Nasconde il triangolino del dialogo
 	 *
-	 * @param show
+	 * @param show true per mostrarlo, false per nasconderlo
 	 */
 	public void toggleTriangle(boolean show) {
 		triangle.setVisibility(show ? View.VISIBLE : View.INVISIBLE);

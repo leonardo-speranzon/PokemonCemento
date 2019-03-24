@@ -55,11 +55,13 @@
         y="3" />
     <trainer
         name="Matteo"
+        genere="0"
         direction="RIGHT"
         x="4"
         y="2" />
     <trainer
-        name="Marco"
+        name="Alessia"
+        genere="1"
         direction="LEFT"
         x="15"
         y="10" />
