@@ -4,7 +4,7 @@ import it.speranzon_galligioni.pokemoncemento.R;
 
 public enum ObstacleTypes {
 	MOUNTAIN(R.drawable.obstacle_mountain),
-	WALL(R.drawable.obstacle_wall);
+	WALL(R.drawable.obstacle_wall_repeat);
 
 	public final int drawableRes;
 
@@ -28,6 +28,6 @@ public enum ObstacleTypes {
 	 * @return
 	 */
 	public static ObstacleTypes getDefault() {
-		return MOUNTAIN;
+		return WALL;
 	}
 }

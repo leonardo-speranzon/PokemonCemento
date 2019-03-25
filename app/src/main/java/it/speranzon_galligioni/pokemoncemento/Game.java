@@ -196,8 +196,8 @@ public class Game {
 		int moveX = (int) (getX() + -direction.getX());
 		int moveY = (int) (getY() + -direction.getY());
 		//Log.d("BORDI","playerX: "+player.getX()+", playerY: "+player.getY()+", moveX: "+moveX+", moveY: "+moveY+", Direction: "+direction);
-		return (moveX <= player.getX() && moveX + map.getWidth() >= player.getX() + 1
-				&& moveY <= player.getY() && moveY + map.getHeight() >= player.getY() + 1);
+		return (moveX <= player.getX() && moveX + map.getWidth()/GameCostants.BOX_SIZE >= player.getX() + 1
+				&& moveY <= player.getY() && moveY + map.getHeight()/GameCostants.BOX_SIZE >= player.getY() + 1);
 	}
 
 	/**
@@ -214,7 +214,11 @@ public class Game {
 				.setListener(new Animator.AnimatorListener() {
 					@Override
 					public void onAnimationStart(Animator animation) {
+
 						isMoving = true;
+						player.setImageDrawable(context.getDrawable(R.drawable.player_1));
+						handler.postDelayed(() -> player.setImageDrawable(context.getDrawable(R.drawable.player_2)), animationDuration / 2);
+						handler.postDelayed(() -> player.setImageDrawable(context.getDrawable(R.drawable.player_0)), animationDuration);
 					}
 
 					@Override
@@ -227,48 +231,18 @@ public class Game {
 							player.block();
 							isMoving = false;
 
-							float deltaX, deltaY = 0;
-							ViewPropertyAnimator trainerAnimation = t.animate();
-							if ((deltaX = player.getX() - (map.getX() / GameCostants.BOX_SIZE + t.getX())) != 0)
-								trainerAnimation = trainerAnimation.xBy((deltaX - (deltaX / Math.abs(deltaX))) * GameCostants.BOX_SIZE).setDuration((long) ((Math.abs(deltaX) - 1) * GameCostants.PLAYER_MOVEMENT_DURATION));
-							else if ((deltaY = player.getY() - (map.getY() / GameCostants.BOX_SIZE + t.getY())) != 0)
-								trainerAnimation = trainerAnimation.yBy((deltaY - (deltaY / Math.abs(deltaY))) * GameCostants.BOX_SIZE).setDuration((long) ((Math.abs(deltaY) - 1) * GameCostants.PLAYER_MOVEMENT_DURATION));
-							else
-								Log.w("PROVA", "problema allenatore");
-							deltaY = player.getY() - (map.getY() / GameCostants.BOX_SIZE + t.getY());
-							Log.d("PROVA", "dX: " + (deltaX - (deltaX / Math.abs(deltaX))) + "  dY:" + (deltaY - (deltaY / Math.abs(deltaY))));
-							trainerAnimation.setListener(new Animator.AnimatorListener() {
-								@Override
-								public void onAnimationStart(Animator animation) {
-
-								}
-
-								@Override
-								public void onAnimationEnd(Animator animation) {
-									txtController.toggleDialog(true);
-									txtController.writeText(t, new Runnable() {
-										@Override
-										public void run() {
-											//player.unlock();
-											t.disable();
-											onScontro.run();
-											player.unlock();
-										}
-									});
-								}
-
-								@Override
-								public void onAnimationCancel(Animator animation) {
-
-								}
-
-								@Override
-								public void onAnimationRepeat(Animator animation) {
-
-								}
+							float distance;
+							//distance = deltaX + deltaY
+							distance = Math.abs(player.getX() - (map.getX() / GameCostants.BOX_SIZE + t.getX()) + Math.abs(player.getY()) - (map.getY() / GameCostants.BOX_SIZE + t.getY()))-1;
+							moveTrainer(t,t.getDirection(), (int) distance,()->{
+								txtController.toggleDialog(true);
+								txtController.writeText(t, () -> {
+									t.disable();
+									onScontro.run();
+									player.unlock();
+								});
 							});
 
-							//
 
 						} else {
 							isMoving = false;
@@ -290,9 +264,50 @@ public class Game {
 					}
 				})
 				.start();
-		player.setImageDrawable(context.getDrawable(R.drawable.player_1));
-		handler.postDelayed(() -> player.setImageDrawable(context.getDrawable(R.drawable.player_2)), animationDuration / 2);
-		handler.postDelayed(() -> player.setImageDrawable(context.getDrawable(R.drawable.player_0)), animationDuration);
+
+	}
+
+	public void moveTrainer(Trainer t,Direction dir,int distance,Runnable onFinish){
+		ViewPropertyAnimator trainerAnimation = t.animate().setDuration(distance*GameCostants.PLAYER_MOVEMENT_DURATION);
+		switch (dir){
+			case UP:
+				trainerAnimation.yBy(-distance*GameCostants.BOX_SIZE);
+				break;
+			case DOWN:
+				trainerAnimation.yBy(distance*GameCostants.BOX_SIZE);
+				break;
+			case LEFT:
+				trainerAnimation.xBy(-distance*GameCostants.BOX_SIZE);
+				break;
+			case RIGHT:
+				trainerAnimation.xBy(distance*GameCostants.BOX_SIZE);
+				break;
+		}
+		trainerAnimation.setListener(new Animator.AnimatorListener() {
+			@Override
+			public void onAnimationStart(Animator animation) {
+				for(int i=0;i<distance;i++) {
+					handler.postDelayed(() -> t.setImageDrawable(context.getDrawable(t.getGender().getImg1())), i*GameCostants.PLAYER_MOVEMENT_DURATION);
+					handler.postDelayed(() -> t.setImageDrawable(context.getDrawable(t.getGender().getImg2())), (long) ((i+0.5)*GameCostants.PLAYER_MOVEMENT_DURATION));
+				}
+				handler.postDelayed(() -> t.setImageDrawable(context.getDrawable(t.getGender().getImg0())), distance*GameCostants.PLAYER_MOVEMENT_DURATION);
+			}
+
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				onFinish.run();
+			}
+
+			@Override
+			public void onAnimationCancel(Animator animation) {
+
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator animation) {
+
+			}
+		});
 	}
 
 	/**

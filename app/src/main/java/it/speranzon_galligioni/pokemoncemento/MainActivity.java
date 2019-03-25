@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Random;
 
 import it.speranzon_galligioni.pokemoncemento.enums.Direction;
+import it.speranzon_galligioni.pokemoncemento.enums.Gender;
 import it.speranzon_galligioni.pokemoncemento.enums.ObstacleTypes;
 import it.speranzon_galligioni.pokemoncemento.enums.Pokemon;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Obstacle;
@@ -121,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 		hideSystemUI();
-		game = readXmlAndCreate(R.id.map_container, R.id.map, R.xml.map_severi);
+		game = readXmlAndCreate(R.id.map_container, R.id.map, R.xml.map_ultimate);
 	}
 
 	private Direction getDirectionJoystick(MotionEvent me) {
@@ -197,10 +198,11 @@ public class MainActivity extends AppCompatActivity {
 						int x = xpp.getAttributeIntValue(null, "x", 0);
 						int y = xpp.getAttributeIntValue(null, "y", 0);
 						String dir = xpp.getAttributeValue(null, "direction");
+						String gender = xpp.getAttributeValue(null, "gender");
 						String name = xpp.getAttributeValue(null, "name");
-						int drawable = xpp.getAttributeIntValue(null, "genere", 0) == 0 ? R.drawable.trainerm_0 : R.drawable.trainerf_0;
+						//int drawable = xpp.getAttributeIntValue(null, "gender", 0) == 0 ? R.drawable.trainerm_0 : R.drawable.trainerf_0;
 						Log.d("PROVA", name + "");
-						trainers.add(new Trainer(this, x, y, Direction.valueOf(dir), name, drawable));
+						trainers.add(new Trainer(this, x, y, Direction.valueOf(dir), name, Gender.valueOf(gender)));
 					}
 				}
 				eventType = xpp.next();

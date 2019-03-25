@@ -4,9 +4,11 @@ import android.content.Context;
 
 import it.speranzon_galligioni.pokemoncemento.GameCostants;
 import it.speranzon_galligioni.pokemoncemento.enums.Direction;
+import it.speranzon_galligioni.pokemoncemento.enums.Gender;
 
 public class Trainer extends GameElement {
 	private Direction lookDirection;
+	private Gender gender;
 
 	private String name;
 	private boolean disabled;
@@ -18,14 +20,16 @@ public class Trainer extends GameElement {
 	 * @param y posizione Y
 	 * @param lookDirection direzione in cui l'allenatore staguardando
 	 * @param name nome dell'allenatore
+	 * @param gender gener dell'allenatore
 	 */
-	public Trainer(Context context, int x, int y, Direction lookDirection, String name, int drawable) {
-		super(context, x, y, 1, 1, drawable);
+	public Trainer(Context context, int x, int y, Direction lookDirection, String name, Gender gender) {
+		super(context, x, y, 1, 1, gender.getImg0());
 
 		setRotation(lookDirection.getDegrees());
 
 		this.lookDirection = lookDirection;
 		this.name = name;
+		this.gender = gender;
 	}
 
 	/**
@@ -51,6 +55,22 @@ public class Trainer extends GameElement {
 	 */
 	public String getName() {
 		return name;
+	}
+	/**
+	 * ritorna la direzione in cui guarda l'allenatore
+	 *
+	 * @return
+	 */
+	public Direction getDirection() {
+		return lookDirection;
+	}
+	/**
+	 * ritorna il genere dell'allenatore
+	 *
+	 * @return
+	 */
+	public Gender getGender() {
+		return gender;
 	}
 
 	/**
