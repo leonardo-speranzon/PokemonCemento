@@ -31,17 +31,18 @@ public class StartActivity extends AppCompatActivity {
 			selectedPokemon = Pokemon.values()[position];
 		});
 
-		findViewById(R.id.cmd_gioca).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (selectedPokemon == null)
-					return;
-				Intent i = new Intent(getApplicationContext(), MainActivity.class);
-				i.putExtra("pokemon", selectedPokemon);
-				startActivity(i);
-			}
+		findViewById(R.id.cmd_gioca).setOnClickListener(v -> {
+			if (selectedPokemon == null)
+				return;
+			Intent i = new Intent(this, MainActivity.class);
+			i.putExtra("pokemon", selectedPokemon);
+			startActivity(i);
 		});
 
 
+	}
+	@Override
+	public void onBackPressed() {
+		//NON FA NIENTE
 	}
 }

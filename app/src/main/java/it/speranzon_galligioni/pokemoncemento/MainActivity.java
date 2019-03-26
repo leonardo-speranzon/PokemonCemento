@@ -1,6 +1,7 @@
 package it.speranzon_galligioni.pokemoncemento;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.XmlResourceParser;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import it.speranzon_galligioni.pokemoncemento.enums.Direction;
 import it.speranzon_galligioni.pokemoncemento.enums.Gender;
 import it.speranzon_galligioni.pokemoncemento.enums.ObstacleTypes;
 import it.speranzon_galligioni.pokemoncemento.enums.Pokemon;
+import it.speranzon_galligioni.pokemoncemento.gameObject.GameElement;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Obstacle;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Player;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Trainer;
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
 			public boolean onTouch(View v, MotionEvent event) {
 				switch (event.getAction()) {
 					case MotionEvent.ACTION_DOWN:
+						game.interact();
 						return true;
 					case MotionEvent.ACTION_UP:
 						return true;
@@ -165,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
 		List<Obstacle> obstacles = new ArrayList<>();
 		List<Trainer> trainers = new ArrayList<>();
+		List<GameElement> treasures = new ArrayList<>();
 		RelativeLayout mapContainerL = findViewById(mapContainerId);
 		RelativeLayout mapL = findViewById(mapId);
 
@@ -203,6 +207,10 @@ public class MainActivity extends AppCompatActivity {
 						//int drawable = xpp.getAttributeIntValue(null, "gender", 0) == 0 ? R.drawable.trainerm_0 : R.drawable.trainerf_0;
 						Log.d("PROVA", name + "");
 						trainers.add(new Trainer(this, x, y, Direction.valueOf(dir), name, Gender.valueOf(gender)));
+					} else if(xpp.getName().equals("treasure")){
+						int x = xpp.getAttributeIntValue(null, "x", 0);
+						int y = xpp.getAttributeIntValue(null, "y", 0);
+						treasures.add(new GameElement(this,x,y,1,1,R.drawable.treasure));
 					}
 				}
 				eventType = xpp.next();
@@ -241,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
 		lpP.leftMargin = mapContainerL.getHeight() / 2;
 		p.setLayoutParams(lpP);
 		Log.d("PROVA", "sSY: " + screenSize.y + ", plY: " + p.getY());
-		Game game = new Game(mapL, mapHeight, mapWidth, playerStartX, playerStartY, obstacles, trainers, p, txtController, new Runnable() {
+		Game game = new Game(mapL, mapHeight, mapWidth, playerStartX, playerStartY, obstacles, trainers, p,treasures.get(new Random().nextInt(treasures.size())), txtController, new Runnable() {
 			@Override
 			public void run() {
 				final View main = findViewById(R.id.root);
@@ -253,14 +261,21 @@ public class MainActivity extends AppCompatActivity {
 
 
 				//setContentView(R.layout.activity_scontro);
-				new Scontro(myPokemon, Pokemon.values()[new Random().nextInt(Pokemon.values().length)], new Runnable() {
-					@Override
-					public void run() {
-						main.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_out_right));
-						setContentView(main);
-					}
+				new Scontro(myPokemon, Pokemon.values()[new Random().nextInt(Pokemon.values().length)], () -> {
+					main.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_out_right));
+					setContentView(main);
+				},()->{
+					Intent i=new Intent(getApplicationContext(), FinishActivity.class);
+					i.putExtra("frase"," GAME \nOVER");
+					i.putExtra("pokemon", myPokemon);
+					startActivity(i);
 				}, MainActivity.this);
 			}
+		},()->{
+			Intent i=new Intent(getApplicationContext(), FinishActivity.class);
+			i.putExtra("frase","VITTORIA");
+			i.putExtra("pokemon", myPokemon);
+			startActivity(i);
 		}, this);
 		return game;
 	}

@@ -398,4 +398,32 @@
         direction="LEFT"
         x="2"
         y="13" />
+
+
+    <!--   ____________
+
+             BAULI
+           ____________-->
+    <treasure
+        x="5"
+        y="5"/>
+    <treasure
+        x="7"
+        y="19"/>
+    <treasure
+        x="2"
+        y="34"/>
+    <treasure
+        x="17"
+        y="20"/>
+    <treasure
+        x="22"
+        y="10"/>
+    <treasure
+        x="26"
+        y="24"/>
+    <treasure
+        x="34"
+        y="26"/>
+
 </map>

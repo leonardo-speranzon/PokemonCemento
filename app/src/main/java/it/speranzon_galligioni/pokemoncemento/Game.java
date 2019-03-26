@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.speranzon_galligioni.pokemoncemento.enums.Direction;
+import it.speranzon_galligioni.pokemoncemento.gameObject.GameElement;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Obstacle;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Player;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Trainer;
@@ -20,22 +21,25 @@ public class Game {
 	private RelativeLayout map;
 	private List<Obstacle> obstacles;
 	private List<Trainer> trainers;
+	private GameElement treasure;
 	private Player player;
 	private Direction currentDirection;
 	private Handler handler;
 	private TextController txtController;
 	private boolean isMoving, mustMove, running;
-	private Runnable onScontro;
+	private Runnable onScontro,onWin;
 
 
-	public Game(RelativeLayout map, int height, int width, int playerInitX, int playerInitY, List<Obstacle> obstacles, List<Trainer> trainers, Player player, TextController txtController, Runnable onScontro, Context context) {
+	public Game(RelativeLayout map, int height, int width, int playerInitX, int playerInitY, List<Obstacle> obstacles, List<Trainer> trainers, Player player, GameElement treasure, TextController txtController, Runnable onScontro,Runnable onWin, Context context) {
 		this.obstacles = new ArrayList<>(obstacles);
 		this.trainers = new ArrayList<>(trainers);
 		this.player = player;
+		this.treasure = treasure;
 		this.map = map;
 		this.txtController = txtController;
 		this.context = context;
 		this.onScontro = onScontro;
+		this.onWin = onWin;
 
 		RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) map.getLayoutParams();
 		lp.height = GameCostants.BOX_SIZE * height;
@@ -48,6 +52,8 @@ public class Game {
 		//Log.d("PROVA","h: "+ mapHeight +", w: "+mapWidth+", lm: "+ lpC.leftMargin/GameCostants.BOX_SIZE +", rm: "+(mcWidth-mapWidth-lpM.leftMargin/GameCostants.BOX_SIZE)+", tm: "+ lpC.topMargin/GameCostants.BOX_SIZE +", bm: "+(mcHeight-mapHeight-lpM.topMargin/GameCostants.BOX_SIZE));
 		map.setLayoutParams(lp);
 
+
+
 		handler = new Handler();
 		currentDirection = Direction.UP;
 
@@ -55,6 +61,7 @@ public class Game {
 			map.addView(obs);
 		for (Trainer t : trainers)
 			map.addView(t);
+		map.addView(treasure);
 	}
 
 	/**
@@ -169,6 +176,8 @@ public class Game {
 		for (Trainer t : trainers)
 			if (t.checkCollision(player, moveX, moveY))
 				return true;
+		if(treasure.checkCollision(player,moveX,moveY))
+			return true;
 		return false;
 	}
 
@@ -217,7 +226,8 @@ public class Game {
 
 						isMoving = true;
 						player.setImageDrawable(context.getDrawable(R.drawable.player_1));
-						handler.postDelayed(() -> player.setImageDrawable(context.getDrawable(R.drawable.player_2)), animationDuration / 2);
+						handler.postDelayed(() -> player.setImageDrawable(context.getDrawable(R.drawable.player_0)), animationDuration / 3);
+						handler.postDelayed(() -> player.setImageDrawable(context.getDrawable(R.drawable.player_2)), animationDuration / 3*2);
 						handler.postDelayed(() -> player.setImageDrawable(context.getDrawable(R.drawable.player_0)), animationDuration);
 					}
 
@@ -309,6 +319,24 @@ public class Game {
 			}
 		});
 	}
+	public void interact() {
+		if(player.getX()+currentDirection.getX()==map.getX()/GameCostants.BOX_SIZE+treasure.getX() &&
+				player.getY()+currentDirection.getY()==map.getY()/GameCostants.BOX_SIZE+treasure.getY())
+			onWin.run();
+		for (Trainer t : trainers)
+			if(player.getX()+currentDirection.getX()==map.getX()/GameCostants.BOX_SIZE+t.getX() &&
+					player.getY()+currentDirection.getY()==map.getY()/GameCostants.BOX_SIZE+t.getY()) {
+				t.setRotation(currentDirection.getDegrees()+180);
+				txtController.toggleDialog(true);
+				txtController.writeText(t, () -> {
+					t.disable();
+					onScontro.run();
+					player.unlock();
+				});
+			}
+
+	}
+
 
 	/**
 	 * @return
@@ -378,4 +406,6 @@ public class Game {
 	public void setRunning(boolean running) {
 		this.running = running;
 	}
+
+
 }

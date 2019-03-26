@@ -26,18 +26,20 @@ public class Scontro {
 	private TextView txtAttackName;
 	private AnimatorSet txtAttackNameAnimator;
 	private boolean turno;//TRUE:friendly / FALSE:enemy
-	private Runnable onFinish;
+	private Runnable onPlayerWin,onPlayerLose;
 	private Handler handler;
 	private Random r;
 
 	/**
 	 * @param friendlyPok
 	 * @param enemyPok
-	 * @param onFinish
+	 * @param onPlayerWin
+	 * @param onPlayerLose
 	 * @param context
 	 */
-	public Scontro(final Pokemon friendlyPok, final Pokemon enemyPok, final Runnable onFinish, Context context) {
-		this.onFinish = onFinish;
+	public Scontro(Pokemon friendlyPok, Pokemon enemyPok, Runnable onPlayerWin, Runnable onPlayerLose, Context context) {
+		this.onPlayerWin = onPlayerWin;
+		this.onPlayerLose = onPlayerLose;
 		friendly = ((AppCompatActivity) context).findViewById(R.id.friendly_side);
 		enemy = ((AppCompatActivity) context).findViewById(R.id.enemy_side);
 		atcks = ((AppCompatActivity) context).findViewById(R.id.atcks);
@@ -75,7 +77,7 @@ public class Scontro {
 						Attack atck = Attack.valueOf(((Button) v).getText().toString().replace(" \n", "_"));
 						txtAttackName.setText(((Button) v).getText().toString() + ' ');
 						txtAttackNameAnimator.start();
-						friendly.attackAnim(() -> enemy.damage(atck.getDamage(), () -> enemyAttack(), () -> onFinish.run()));
+						friendly.attackAnim(() -> enemy.damage(atck.getDamage(), () -> enemyAttack(), () -> onPlayerWin.run()));
 
 						atcks.setVisibility(View.INVISIBLE);
 					}
@@ -104,6 +106,6 @@ public class Scontro {
 		Attack atck = enemyAttacks[r.nextInt(4)];
 		txtAttackName.setText(atck.toString().replace("_", " \n") + ' ');
 		txtAttackNameAnimator.start();
-		enemy.attackAnim(() -> friendly.damage(atck.getDamage(), () -> turno = true, () -> onFinish.run()));
+		enemy.attackAnim(() -> friendly.damage(atck.getDamage(), () -> turno = true, () -> onPlayerLose.run()));
 	}
 }
