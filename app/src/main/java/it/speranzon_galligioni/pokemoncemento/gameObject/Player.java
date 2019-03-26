@@ -9,9 +9,10 @@ public class Player extends GameElement {
 
 	/**
 	 * Costruttore di Player
+	 *
 	 * @param context Context
-	 * @param x coordinata X
-	 * @param y coordinata Y
+	 * @param x       coordinata X
+	 * @param y       coordinata Y
 	 */
 	public Player(Context context, int x, int y) {
 		super(context, x, y, 1, 1, R.drawable.player_0);

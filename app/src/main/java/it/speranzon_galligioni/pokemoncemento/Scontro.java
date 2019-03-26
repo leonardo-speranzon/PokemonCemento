@@ -26,7 +26,7 @@ public class Scontro {
 	private TextView txtAttackName;
 	private AnimatorSet txtAttackNameAnimator;
 	private boolean turno;//TRUE:friendly / FALSE:enemy
-	private Runnable onPlayerWin,onPlayerLose;
+	private Runnable onPlayerWin, onPlayerLose;
 	private Handler handler;
 	private Random r;
 

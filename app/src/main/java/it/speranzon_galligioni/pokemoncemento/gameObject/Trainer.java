@@ -15,12 +15,13 @@ public class Trainer extends GameElement {
 
 	/**
 	 * Costruttore di Trainer
-	 * @param context Context
-	 * @param x posizione X
-	 * @param y posizione Y
+	 *
+	 * @param context       Context
+	 * @param x             posizione X
+	 * @param y             posizione Y
 	 * @param lookDirection direzione in cui l'allenatore staguardando
-	 * @param name nome dell'allenatore
-	 * @param gender gener dell'allenatore
+	 * @param name          nome dell'allenatore
+	 * @param gender        gener dell'allenatore
 	 */
 	public Trainer(Context context, int x, int y, Direction lookDirection, String name, Gender gender) {
 		super(context, x, y, 1, 1, gender.getImg0());
@@ -56,6 +57,7 @@ public class Trainer extends GameElement {
 	public String getName() {
 		return name;
 	}
+
 	/**
 	 * ritorna la direzione in cui guarda l'allenatore
 	 *
@@ -64,6 +66,7 @@ public class Trainer extends GameElement {
 	public Direction getDirection() {
 		return lookDirection;
 	}
+
 	/**
 	 * ritorna il genere dell'allenatore
 	 *

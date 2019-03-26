@@ -22,7 +22,6 @@ public class GameElement extends AppCompatImageView {
 	}
 
 	/**
-	 *
 	 * @param context
 	 * @param x
 	 * @param y
@@ -41,9 +40,10 @@ public class GameElement extends AppCompatImageView {
 
 	/**
 	 * Controlla se avverrebbe una collisione se il giocatore si spostasse in una certa direzione
+	 *
 	 * @param player giocatore
-	 * @param moveX posizione futura X della mappa
-	 * @param moveY posizione futura Y della mappa
+	 * @param moveX  posizione futura X della mappa
+	 * @param moveY  posizione futura Y della mappa
 	 * @return true se la collisione avverrebbe
 	 */
 	public boolean checkCollision(Player player, int moveX, int moveY) {

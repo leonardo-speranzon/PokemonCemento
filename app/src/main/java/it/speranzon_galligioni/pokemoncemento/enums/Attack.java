@@ -29,6 +29,7 @@ public enum Attack {
 
 	/**
 	 * Costruttore di Attack
+	 *
 	 * @param damage danno
 	 */
 	Attack(int damage) {
@@ -37,6 +38,7 @@ public enum Attack {
 
 	/**
 	 * Ritoran il danno inflitto dalla mossa
+	 *
 	 * @return danno
 	 */
 	public int getDamage() {

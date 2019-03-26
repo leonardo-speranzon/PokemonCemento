@@ -11,8 +11,9 @@ public enum Direction {
 
 	/**
 	 * Costruttore di Direction
-	 * @param x movimento X
-	 * @param y movimento Y
+	 *
+	 * @param x       movimento X
+	 * @param y       movimento Y
 	 * @param degrees gradi per la rotazione
 	 */
 	Direction(int x, int y, int degrees) {
@@ -23,6 +24,7 @@ public enum Direction {
 
 	/**
 	 * Ritorna il movimento X
+	 *
 	 * @return x
 	 */
 	public int getX() {
@@ -31,6 +33,7 @@ public enum Direction {
 
 	/**
 	 * Ritorna il movimento Y
+	 *
 	 * @return y
 	 */
 	public int getY() {
@@ -39,6 +42,7 @@ public enum Direction {
 
 	/**
 	 * Ritorna i gradi per la rotazione
+	 *
 	 * @return gradi
 	 */
 	public int getDegrees() {

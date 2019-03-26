@@ -34,7 +34,6 @@ public class PokemonScontro extends ConstraintLayout {
 	}
 
 	/**
-	 *
 	 * @param context
 	 * @param attrs
 	 * @param defStyleAttr
@@ -45,7 +44,6 @@ public class PokemonScontro extends ConstraintLayout {
 	}
 
 	/**
-	 *
 	 * @param context
 	 * @param attrs
 	 */

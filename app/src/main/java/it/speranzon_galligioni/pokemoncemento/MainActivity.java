@@ -29,10 +29,10 @@ import it.speranzon_galligioni.pokemoncemento.enums.Direction;
 import it.speranzon_galligioni.pokemoncemento.enums.Gender;
 import it.speranzon_galligioni.pokemoncemento.enums.ObstacleTypes;
 import it.speranzon_galligioni.pokemoncemento.enums.Pokemon;
-import it.speranzon_galligioni.pokemoncemento.gameObject.GameElement;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Obstacle;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Player;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Trainer;
+import it.speranzon_galligioni.pokemoncemento.gameObject.Treasure;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -143,12 +143,6 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void hideSystemUI() {
-       /* final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;*/
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		getWindow().getDecorView().setSystemUiVisibility(
@@ -168,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
 		List<Obstacle> obstacles = new ArrayList<>();
 		List<Trainer> trainers = new ArrayList<>();
-		List<GameElement> treasures = new ArrayList<>();
+		List<Treasure> treasures = new ArrayList<>();
 		RelativeLayout mapContainerL = findViewById(mapContainerId);
 		RelativeLayout mapL = findViewById(mapId);
 
@@ -207,10 +201,10 @@ public class MainActivity extends AppCompatActivity {
 						//int drawable = xpp.getAttributeIntValue(null, "gender", 0) == 0 ? R.drawable.trainerm_0 : R.drawable.trainerf_0;
 						Log.d("PROVA", name + "");
 						trainers.add(new Trainer(this, x, y, Direction.valueOf(dir), name, Gender.valueOf(gender)));
-					} else if(xpp.getName().equals("treasure")){
+					} else if (xpp.getName().equals("treasure")) {
 						int x = xpp.getAttributeIntValue(null, "x", 0);
 						int y = xpp.getAttributeIntValue(null, "y", 0);
-						treasures.add(new GameElement(this,x,y,1,1,R.drawable.treasure));
+						treasures.add(new Treasure(this, x, y));
 					}
 				}
 				eventType = xpp.next();
@@ -249,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
 		lpP.leftMargin = mapContainerL.getHeight() / 2;
 		p.setLayoutParams(lpP);
 		Log.d("PROVA", "sSY: " + screenSize.y + ", plY: " + p.getY());
-		Game game = new Game(mapL, mapHeight, mapWidth, playerStartX, playerStartY, obstacles, trainers, p,treasures.get(new Random().nextInt(treasures.size())), txtController, new Runnable() {
+		Game game = new Game(mapL, mapHeight, mapWidth, playerStartX, playerStartY, obstacles, trainers, p, treasures.get(new Random().nextInt(treasures.size())), txtController, new Runnable() {
 			@Override
 			public void run() {
 				final View main = findViewById(R.id.root);
@@ -264,21 +258,22 @@ public class MainActivity extends AppCompatActivity {
 				new Scontro(myPokemon, Pokemon.values()[new Random().nextInt(Pokemon.values().length)], () -> {
 					main.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_out_right));
 					setContentView(main);
-				},()->{
-					Intent i=new Intent(getApplicationContext(), FinishActivity.class);
-					i.putExtra("frase"," GAME \nOVER");
+				}, () -> {
+					Intent i = new Intent(getApplicationContext(), FinishActivity.class);
+					i.putExtra("frase", " GAME \nOVER");
 					i.putExtra("pokemon", myPokemon);
 					startActivity(i);
 				}, MainActivity.this);
 			}
-		},()->{
-			Intent i=new Intent(getApplicationContext(), FinishActivity.class);
-			i.putExtra("frase","VITTORIA");
+		}, () -> {
+			Intent i = new Intent(getApplicationContext(), FinishActivity.class);
+			i.putExtra("frase", "VITTORIA");
 			i.putExtra("pokemon", myPokemon);
 			startActivity(i);
 		}, this);
 		return game;
 	}
+
 	@Override
 	public void onBackPressed() {
 		//NON FA NIENTE

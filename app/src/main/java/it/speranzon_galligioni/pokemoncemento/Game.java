@@ -11,26 +11,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.speranzon_galligioni.pokemoncemento.enums.Direction;
-import it.speranzon_galligioni.pokemoncemento.gameObject.GameElement;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Obstacle;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Player;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Trainer;
+import it.speranzon_galligioni.pokemoncemento.gameObject.Treasure;
 
 public class Game {
 	private Context context;
 	private RelativeLayout map;
 	private List<Obstacle> obstacles;
 	private List<Trainer> trainers;
-	private GameElement treasure;
+	private Treasure treasure;
 	private Player player;
 	private Direction currentDirection;
 	private Handler handler;
 	private TextController txtController;
 	private boolean isMoving, mustMove, running;
-	private Runnable onScontro,onWin;
+	private Runnable onScontro, onWin;
 
 
-	public Game(RelativeLayout map, int height, int width, int playerInitX, int playerInitY, List<Obstacle> obstacles, List<Trainer> trainers, Player player, GameElement treasure, TextController txtController, Runnable onScontro,Runnable onWin, Context context) {
+	public Game(RelativeLayout map, int height, int width, int playerInitX, int playerInitY, List<Obstacle> obstacles, List<Trainer> trainers, Player player, Treasure treasure, TextController txtController, Runnable onScontro, Runnable onWin, Context context) {
 		this.obstacles = new ArrayList<>(obstacles);
 		this.trainers = new ArrayList<>(trainers);
 		this.player = player;
@@ -51,7 +51,6 @@ public class Game {
 		lp.rightMargin = ((RelativeLayout) map.getParent()).getWidth() - lp.width - lp.leftMargin;
 		//Log.d("PROVA","h: "+ mapHeight +", w: "+mapWidth+", lm: "+ lpC.leftMargin/GameCostants.BOX_SIZE +", rm: "+(mcWidth-mapWidth-lpM.leftMargin/GameCostants.BOX_SIZE)+", tm: "+ lpC.topMargin/GameCostants.BOX_SIZE +", bm: "+(mcHeight-mapHeight-lpM.topMargin/GameCostants.BOX_SIZE));
 		map.setLayoutParams(lp);
-
 
 
 		handler = new Handler();
@@ -91,7 +90,7 @@ public class Game {
 							movePlayer(currentDirection);
 					} else if (cm == 0)
 						handler.postDelayed(this, 50);
-					else if (cm<0){
+					else if (cm < 0) {
 						if (mustRotate[0]) {
 							player.setRotation(currentDirection.getDegrees());
 							mustRotate[0] = false;
@@ -123,9 +122,9 @@ public class Game {
 	/**
 	 * Muove il Player se esso è possibile
 	 *
-	 * @return  <0:no non può muoversi
-	 * 			 0:in attesa
-	 * 			+1:può muoversi
+	 * @return <0:no non può muoversi
+	 * 0:in attesa
+	 * +1:può muoversi
 	 */
 	public int canMove() {
 
@@ -176,7 +175,7 @@ public class Game {
 		for (Trainer t : trainers)
 			if (t.checkCollision(player, moveX, moveY))
 				return true;
-		if(treasure.checkCollision(player,moveX,moveY))
+		if (treasure.checkCollision(player, moveX, moveY))
 			return true;
 		return false;
 	}
@@ -205,8 +204,8 @@ public class Game {
 		int moveX = (int) (getX() + -direction.getX());
 		int moveY = (int) (getY() + -direction.getY());
 		//Log.d("BORDI","playerX: "+player.getX()+", playerY: "+player.getY()+", moveX: "+moveX+", moveY: "+moveY+", Direction: "+direction);
-		return (moveX <= player.getX() && moveX + map.getWidth()/GameCostants.BOX_SIZE >= player.getX() + 1
-				&& moveY <= player.getY() && moveY + map.getHeight()/GameCostants.BOX_SIZE >= player.getY() + 1);
+		return (moveX <= player.getX() && moveX + map.getWidth() / GameCostants.BOX_SIZE >= player.getX() + 1
+				&& moveY <= player.getY() && moveY + map.getHeight() / GameCostants.BOX_SIZE >= player.getY() + 1);
 	}
 
 	/**
@@ -227,7 +226,7 @@ public class Game {
 						isMoving = true;
 						player.setImageDrawable(context.getDrawable(R.drawable.player_1));
 						handler.postDelayed(() -> player.setImageDrawable(context.getDrawable(R.drawable.player_0)), animationDuration / 3);
-						handler.postDelayed(() -> player.setImageDrawable(context.getDrawable(R.drawable.player_2)), animationDuration / 3*2);
+						handler.postDelayed(() -> player.setImageDrawable(context.getDrawable(R.drawable.player_2)), animationDuration / 3 * 2);
 						handler.postDelayed(() -> player.setImageDrawable(context.getDrawable(R.drawable.player_0)), animationDuration);
 					}
 
@@ -243,8 +242,8 @@ public class Game {
 
 							float distance;
 							//distance = deltaX + deltaY
-							distance = Math.abs(player.getX() - (map.getX() / GameCostants.BOX_SIZE + t.getX()) + Math.abs(player.getY()) - (map.getY() / GameCostants.BOX_SIZE + t.getY()))-1;
-							moveTrainer(t,t.getDirection(), (int) distance,()->{
+							distance = Math.abs(player.getX() - (map.getX() / GameCostants.BOX_SIZE + t.getX()) + Math.abs(player.getY()) - (map.getY() / GameCostants.BOX_SIZE + t.getY())) - 1;
+							moveTrainer(t, t.getDirection(), (int) distance, () -> {
 								txtController.toggleDialog(true);
 								txtController.writeText(t, () -> {
 									t.disable();
@@ -277,30 +276,30 @@ public class Game {
 
 	}
 
-	public void moveTrainer(Trainer t,Direction dir,int distance,Runnable onFinish){
-		ViewPropertyAnimator trainerAnimation = t.animate().setDuration(distance*GameCostants.PLAYER_MOVEMENT_DURATION);
-		switch (dir){
+	public void moveTrainer(Trainer t, Direction dir, int distance, Runnable onFinish) {
+		ViewPropertyAnimator trainerAnimation = t.animate().setDuration(distance * GameCostants.PLAYER_MOVEMENT_DURATION);
+		switch (dir) {
 			case UP:
-				trainerAnimation.yBy(-distance*GameCostants.BOX_SIZE);
+				trainerAnimation.yBy(-distance * GameCostants.BOX_SIZE);
 				break;
 			case DOWN:
-				trainerAnimation.yBy(distance*GameCostants.BOX_SIZE);
+				trainerAnimation.yBy(distance * GameCostants.BOX_SIZE);
 				break;
 			case LEFT:
-				trainerAnimation.xBy(-distance*GameCostants.BOX_SIZE);
+				trainerAnimation.xBy(-distance * GameCostants.BOX_SIZE);
 				break;
 			case RIGHT:
-				trainerAnimation.xBy(distance*GameCostants.BOX_SIZE);
+				trainerAnimation.xBy(distance * GameCostants.BOX_SIZE);
 				break;
 		}
 		trainerAnimation.setListener(new Animator.AnimatorListener() {
 			@Override
 			public void onAnimationStart(Animator animation) {
-				for(int i=0;i<distance;i++) {
-					handler.postDelayed(() -> t.setImageDrawable(context.getDrawable(t.getGender().getImg1())), i*GameCostants.PLAYER_MOVEMENT_DURATION);
-					handler.postDelayed(() -> t.setImageDrawable(context.getDrawable(t.getGender().getImg2())), (long) ((i+0.5)*GameCostants.PLAYER_MOVEMENT_DURATION));
+				for (int i = 0; i < distance; i++) {
+					handler.postDelayed(() -> t.setImageDrawable(context.getDrawable(t.getGender().getImg1())), i * GameCostants.PLAYER_MOVEMENT_DURATION);
+					handler.postDelayed(() -> t.setImageDrawable(context.getDrawable(t.getGender().getImg2())), (long) ((i + 0.5) * GameCostants.PLAYER_MOVEMENT_DURATION));
 				}
-				handler.postDelayed(() -> t.setImageDrawable(context.getDrawable(t.getGender().getImg0())), distance*GameCostants.PLAYER_MOVEMENT_DURATION);
+				handler.postDelayed(() -> t.setImageDrawable(context.getDrawable(t.getGender().getImg0())), distance * GameCostants.PLAYER_MOVEMENT_DURATION);
 			}
 
 			@Override
@@ -319,14 +318,19 @@ public class Game {
 			}
 		});
 	}
+
 	public void interact() {
-		if(player.getX()+currentDirection.getX()==map.getX()/GameCostants.BOX_SIZE+treasure.getX() &&
-				player.getY()+currentDirection.getY()==map.getY()/GameCostants.BOX_SIZE+treasure.getY())
-			onWin.run();
+		if (player.getX() + currentDirection.getX() == map.getX() / GameCostants.BOX_SIZE + treasure.getX() &&
+				player.getY() + currentDirection.getY() == map.getY() / GameCostants.BOX_SIZE + treasure.getY()) {
+			txtController.toggleDialog(true);
+			txtController.writeText(treasure, () -> {
+				onWin.run();
+			});
+		}
 		for (Trainer t : trainers)
-			if(player.getX()+currentDirection.getX()==map.getX()/GameCostants.BOX_SIZE+t.getX() &&
-					player.getY()+currentDirection.getY()==map.getY()/GameCostants.BOX_SIZE+t.getY()) {
-				t.setRotation(currentDirection.getDegrees()+180);
+			if (player.getX() + currentDirection.getX() == map.getX() / GameCostants.BOX_SIZE + t.getX() &&
+					player.getY() + currentDirection.getY() == map.getY() / GameCostants.BOX_SIZE + t.getY()) {
+				t.setRotation(currentDirection.getDegrees() + 180);
 				txtController.toggleDialog(true);
 				txtController.writeText(t, () -> {
 					t.disable();
@@ -346,7 +350,6 @@ public class Game {
 	}
 
 	/**
-	 *
 	 * @return
 	 */
 	public float getY() {
@@ -354,7 +357,6 @@ public class Game {
 	}
 
 	/**
-	 *
 	 * @return
 	 */
 	public void setX(int x) {
@@ -362,7 +364,6 @@ public class Game {
 	}
 
 	/**
-	 *
 	 * @return
 	 */
 	public void setY(int y) {
@@ -370,7 +371,6 @@ public class Game {
 	}
 
 	/**
-	 *
 	 * @return
 	 */
 	public int getWidth() {
@@ -378,7 +378,6 @@ public class Game {
 	}
 
 	/**
-	 *
 	 * @return
 	 */
 	public int getHeight() {

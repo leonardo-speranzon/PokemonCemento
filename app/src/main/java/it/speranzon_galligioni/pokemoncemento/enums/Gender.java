@@ -6,7 +6,7 @@ public enum Gender {
 	M(R.drawable.trainerm_0, R.drawable.trainerm_1, R.drawable.trainerm_2),
 	F(R.drawable.trainerf_0, R.drawable.trainerf_1, R.drawable.trainerf_2);
 
-	private int img0,img1,img2;
+	private int img0, img1, img2;
 
 	Gender(int img0, int img1, int img2) {
 		this.img0 = img0;

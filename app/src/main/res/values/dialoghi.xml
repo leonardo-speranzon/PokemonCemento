@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="Baule">Complimenti, hai vinto!</string>
+
+    <string name="Bullo">Ti ho bloccato!HI HI HI!</string>
+
     <string name="Marco">Sono un mostro a questo gioco.Prova a battermi se ci riesci!</string>
     <string name="Matteo">Sarò breve e conciso.</string>
+    <string name="Giulio">E chi se lo sarebbe aspettato di trovarti qui.Io di sicuro no.</string>
+    <string name="Fabio">Almeno mentalmente ho 12 anni.Combatti contro di me!</string>
+    <string name="Leonardo">Ho una mente limitata.Per questo riuscirò a vincere!</string>
+    <string name="Astrubale">Ai miei tempi non era mica così!Ahhh la noia è dura da combattere!</string>
+
     <string name="Alessia">Vuoi vedere cosa tengo nella borsetta?</string>
+    <string name="Marta">E te pensi anche di avere qualche possibilità?</string>
+    <string name="Sara">Sono in quel periodo.Non ti conviene discutere!</string>
+    <string name="Alessandra">Sono una signara io!Non si permetta!</string>
+    <string name="Beatrice">Uff che scatole.</string>
+    <string name="Gelsomina">Lode a Cristo nell\'alto dei cieli.</string>
 </resources>

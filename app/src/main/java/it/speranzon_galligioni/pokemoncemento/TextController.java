@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import it.speranzon_galligioni.pokemoncemento.gameObject.GameElement;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Trainer;
+import it.speranzon_galligioni.pokemoncemento.gameObject.Treasure;
 
 public class TextController {
 
@@ -70,24 +72,18 @@ public class TextController {
 	/**
 	 * Gestisce la scrittura del dialogo spezzandolo ad ogni punto
 	 *
-	 * @param t    Trainer con cui si è interagito
+	 * @param ge   GameElement con cui si è interagito
 	 * @param post Runnable che viene richiamato alla fine del dialogo, dopo l'ultimo tocco
 	 */
 	@SuppressLint("ClickableViewAccessibility")
-	public void writeText(final Trainer t, final Runnable post) {
-
-		dialog.setText(t.getName() + "\n");
-
-		canTouch = false;
-		toggleTriangle(false);
-
-		String s;
-		try {
-			s = context.getString(context.getResources().getIdentifier(t.getName(), "string", context.getPackageName()));
-		} catch (Exception exc) {
-			s = "Lotta contro di me!";
-		}
-		final char[] chars = s.toCharArray();
+	public void writeText(GameElement ge, Runnable post) {
+		String name;
+		if (ge instanceof Trainer)
+			name = ((Trainer) ge).getName();
+		else if (ge instanceof Treasure)
+			name = "Baule";
+		else
+			return;
 
 		textLayout.setOnTouchListener(new View.OnTouchListener() {
 			@Override
@@ -97,12 +93,31 @@ public class TextController {
 						return true;
 					case MotionEvent.ACTION_UP:
 						if (canTouch)
-							writeText(t, post);
+							dialoghe(name, post);
 						return true;
 				}
 				return false;
 			}
 		});
+
+		dialoghe(name, post);
+	}
+
+	@SuppressLint("ClickableViewAccessibility")
+	private void dialoghe(String name, final Runnable post) {
+
+		dialog.setText(name + "\n");
+
+		canTouch = false;
+		toggleTriangle(false);
+
+		String s;
+		try {
+			s = context.getString(context.getResources().getIdentifier(name, "string", context.getPackageName()));
+		} catch (Exception exc) {
+			s = "Lotta contro di me!";
+		}
+		final char[] chars = s.toCharArray();
 
 		handler.postDelayed(new Runnable() {
 			@Override

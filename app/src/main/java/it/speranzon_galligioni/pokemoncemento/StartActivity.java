@@ -3,8 +3,8 @@ package it.speranzon_galligioni.pokemoncemento;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -39,8 +39,19 @@ public class StartActivity extends AppCompatActivity {
 			startActivity(i);
 		});
 
-
+		hideSystemUI();
 	}
+
+	private void hideSystemUI() {
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		getWindow().getDecorView().setSystemUiVisibility(
+				View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+						| View.SYSTEM_UI_FLAG_IMMERSIVE
+						| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+		onWindowFocusChanged(true);
+	}
+
 	@Override
 	public void onBackPressed() {
 		//NON FA NIENTE

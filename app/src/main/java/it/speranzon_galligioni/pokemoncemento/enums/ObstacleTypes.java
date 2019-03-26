@@ -16,7 +16,6 @@ public enum ObstacleTypes {
 	}
 
 	/**
-	 *
 	 * @return
 	 */
 	public int getDrawableRes() {
@@ -24,7 +23,6 @@ public enum ObstacleTypes {
 	}
 
 	/**
-	 *
 	 * @return
 	 */
 	public static ObstacleTypes getDefault() {
