@@ -2,6 +2,7 @@ package it.speranzon_galligioni.pokemoncemento;
 
 import android.animation.Animator;
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.util.Log;
 import android.view.ViewPropertyAnimator;
@@ -74,7 +75,6 @@ public class Game {
 			//Log.d("PROVA", "INIZIO : " + d.toString());
 			mustMove = true;
 			final boolean[] mustRotate = {player.getRotation() != d.getDegrees()};
-			Log.d("PROVA", "" + mustRotate[0]);
 			currentDirection = d;
 
 			handler.postDelayed(new Runnable() {
@@ -236,30 +236,39 @@ public class Game {
 						//controlla che il Player non venga visto dagli altri allenatori
 						final Trainer t;
 						if ((t = checkTrainer()) != null) {
-							stopMove();
-							player.block();
-							isMoving = false;
+
+
 
 							float distance;
+
 							//distance = deltaX + deltaY
-							distance = Math.abs(player.getX() - (map.getX() / GameCostants.BOX_SIZE + t.getX()) + Math.abs(player.getY()) - (map.getY() / GameCostants.BOX_SIZE + t.getY())) - 1;
-							moveTrainer(t, t.getDirection(), (int) distance, () -> {
-								txtController.toggleDialog(true);
-								txtController.writeText(t, () -> {
-									t.disable();
-									onScontro.run();
-									player.unlock();
+							distance = Math.abs(player.getX() - (map.getX() / GameCostants.BOX_SIZE + t.getX())) + Math.abs((player.getY()) - (map.getY() / GameCostants.BOX_SIZE + t.getY())) - 1;
+
+
+
+							if(trainerCanMove(t,t.getDirection(), (int) distance)) {
+								stopMove();
+								player.block();
+								isMoving = false;
+								moveTrainer(t, t.getDirection(), (int) distance, () -> {
+									txtController.toggleDialog(true);
+									txtController.writeText(t, () -> {
+										t.disable();
+										onScontro.run();
+										player.unlock();
+									});
 								});
-							});
-
-
-						} else {
-							isMoving = false;
-							if (canMove() == 1) {
-								if (direction != currentDirection)
-									player.setRotation(currentDirection.getDegrees());
-								movePlayer(currentDirection);
+								return;
 							}
+
+
+						}
+
+						isMoving = false;
+						if (canMove() == 1) {
+							if (direction != currentDirection)
+								player.setRotation(currentDirection.getDegrees());
+							movePlayer(currentDirection);
 						}
 
 					}
@@ -275,7 +284,19 @@ public class Game {
 				.start();
 
 	}
-
+	public boolean trainerCanMove(Trainer t,Direction dir,int distance){
+		Rect trR=new Rect(
+				(int)t.getX() + Math.min(dir.getX() * distance, 0),
+				(int)t.getY() + Math.min(dir.getY()* distance, 0),
+				(int)t.getX() + Math.max(dir.getX() * distance, 0)+1 ,
+				(int)t.getY() + Math.max(dir.getY() * distance, 0)+1);
+		for(Obstacle obs:obstacles) {
+			Rect obsR=new Rect((int)obs.getX(),(int)obs.getY(),(int)obs.getX()+obs.getCWidth(),(int)obs.getY()+obs.getCHeight());
+			if (obsR.intersect(trR))
+				return false;
+		}
+		return true;
+	}
 	public void moveTrainer(Trainer t, Direction dir, int distance, Runnable onFinish) {
 		ViewPropertyAnimator trainerAnimation = t.animate().setDuration(distance * GameCostants.PLAYER_MOVEMENT_DURATION);
 		switch (dir) {

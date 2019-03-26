@@ -375,30 +375,203 @@
         x="5"
         y="1" />
     <trainer
-        name="Alessia"
-        gender="F"
+        name="Marco"
+        gender="M"
         direction="RIGHT"
         x="1"
         y="5" />
     <trainer
-        name="Alessia"
+        name="Sara"
         gender="F"
         direction="DOWN"
         x="8"
         y="5" />
     <trainer
-        name="Alessia"
-        gender="F"
+        name="Leonardo"
+        gender="M"
         direction="UP"
         x="6"
         y="8" />
     <trainer
-        name="Alessia"
+        name="Alessandra"
         gender="F"
         direction="LEFT"
         x="2"
         y="13" />
+    <trainer
+        name="Giulio"
+        gender="M"
+        direction="DOWN"
+        x="9"
+        y="11" />
+    <trainer
+        name="Gelsomina"
+        gender="F"
+        direction="UP"
+        x="16"
+        y="3" />
+    <trainer
+        name="Matteo"
+        gender="M"
+        direction="DOWN"
+        x="16"
+        y="15" />
 
+    <!-- SUD OVEST -->
+    <trainer
+        name="Alessia"
+        gender="F"
+        direction="DOWN"
+        x="3"
+        y="26" />
+    <trainer
+        name="Fabio"
+        gender="M"
+        direction="UP"
+        x="5"
+        y="24" />
+    <trainer
+        name="Beatrice"
+        gender="F"
+        direction="DOWN"
+        x="8"
+        y="29" />
+    <trainer
+        name="Asdrubale"
+        gender="M"
+        direction="DOWN"
+        x="9"
+        y="29" />
+    <trainer
+        name="Alessandra"
+        gender="F"
+        direction="RIGHT"
+        x="16"
+        y="24" />
+    <trainer
+        name="Matteo"
+        gender="M"
+        direction="LEFT"
+        x="18"
+        y="22" />
+    <trainer
+        name="Marta"
+        gender="F"
+        direction="RIGHT"
+        x="9"
+        y="32" />
+    <trainer
+        name="Marco"
+        gender="M"
+        direction="DOWN"
+        x="11"
+        y="33" />
+    <trainer
+        name="Alessia"
+        gender="F"
+        direction="LEFT"
+        x="18"
+        y="31" />
+
+    <!-- NORD EST -->
+    <trainer
+        name="Fabio"
+        gender="M"
+        direction="UP"
+        x="23"
+        y="7" />
+    <trainer
+        name="Asdrubale"
+        gender="M"
+        direction="DOWN"
+        x="24"
+        y="2" />
+    <trainer
+        name="Gelsomina"
+        gender="F"
+        direction="LEFT"
+        x="34"
+        y="3" />
+    <trainer
+        name="Alessia"
+        gender="F"
+        direction="LEFT"
+        x="26"
+        y="10" />
+    <trainer
+        name="Giulio"
+        gender="M"
+        direction="DOWN"
+        x="30"
+        y="5" />
+    <trainer
+        name="Leonardo"
+        gender="M"
+        direction="UP"
+        x="30"
+        y="14" />
+    <trainer
+        name="Sara"
+        gender="F"
+        direction="UP"
+        x="32"
+        y="11" />
+    <trainer
+        name="Beatrice"
+        gender="F"
+        direction="RIGHT"
+        x="36"
+        y="5" />
+    <trainer
+        name="Marta"
+        gender="F"
+        direction="LEFT"
+        x="42"
+        y="8" />
+    <trainer
+        name="Marco"
+        gender="M"
+        direction="LEFT"
+        x="42"
+        y="12" />
+
+    <!-- SUD EST -->
+    <trainer
+        name="Bullo"
+        gender="M"
+        direction="DOWN"
+        x="24"
+        y="20" />
+    <trainer
+        name="Marta"
+        gender="F"
+        direction="RIGHT"
+        x="20"
+        y="19" />
+    <trainer
+        name="Sara"
+        gender="F"
+        direction="DOWN"
+        x="25"
+        y="27" />
+    <trainer
+        name="Giulio"
+        gender="M"
+        direction="DOWN"
+        x="25"
+        y="30" />
+    <trainer
+        name="Matteo"
+        gender="M"
+        direction="DOWN"
+        x="25"
+        y="33" />
+    <trainer
+        name="Asdrubale"
+        gender="M"
+        direction="LEFT"
+        x="35"
+        y="31" />
 
     <!--   ____________
 
