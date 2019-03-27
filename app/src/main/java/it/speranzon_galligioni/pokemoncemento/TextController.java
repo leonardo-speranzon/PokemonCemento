@@ -93,31 +93,31 @@ public class TextController {
 						return true;
 					case MotionEvent.ACTION_UP:
 						if (canTouch)
-							dialoghe(name, post);
+							dialogue(name, post);
 						return true;
 				}
 				return false;
 			}
 		});
 
-		dialoghe(name, post);
+		dialogue(name, post);
 	}
 
 	@SuppressLint("ClickableViewAccessibility")
-	private void dialoghe(String name, final Runnable post) {
+	private void dialogue(String name, final Runnable post) {
 
 		dialog.setText(name + "\n");
 
 		canTouch = false;
 		toggleTriangle(false);
 
-		String s;
+		String dialogo;
 		try {
-			s = context.getString(context.getResources().getIdentifier(name, "string", context.getPackageName()));
+			dialogo = context.getString(context.getResources().getIdentifier(name, "string", context.getPackageName()));
 		} catch (Exception exc) {
-			s = "Lotta contro di me!";
+			dialogo = "Lotta contro di me!";
 		}
-		final char[] chars = s.toCharArray();
+		final char[] chars = dialogo.toCharArray();
 
 		handler.postDelayed(new Runnable() {
 			@Override

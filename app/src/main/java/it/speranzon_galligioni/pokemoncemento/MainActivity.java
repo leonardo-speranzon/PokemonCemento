@@ -153,10 +153,13 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	/**
-	 * @param mapContainerId
-	 * @param mapId
-	 * @param xmlMapFile
-	 * @return
+	 * Legge un documento xml dato e ne crea la mappa secondo le direttive
+	 * ne istanzia anche game
+	 *
+	 * @param mapContainerId id del container della mappa, nel layout
+	 * @param mapId          id della mappa, nel layout
+	 * @param xmlMapFile     file xml da leggere
+	 * @return una nuova istanza di Game
 	 */
 	public Game readXmlAndCreate(int mapContainerId, int mapId, int xmlMapFile) {
 
@@ -278,6 +281,4 @@ public class MainActivity extends AppCompatActivity {
 	public void onBackPressed() {
 		//NON FA NIENTE
 	}
-
-
 }

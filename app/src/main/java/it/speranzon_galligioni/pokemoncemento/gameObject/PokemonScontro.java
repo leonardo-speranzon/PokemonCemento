@@ -27,16 +27,20 @@ public class PokemonScontro extends ConstraintLayout {
 	private AnimatorSet anim;
 
 	/**
-	 * @param context
+	 * Cotruttore di PokemonScontro
+	 *
+	 * @param context context
 	 */
 	public PokemonScontro(Context context) {
 		super(context);
 	}
 
 	/**
-	 * @param context
-	 * @param attrs
-	 * @param defStyleAttr
+	 * Cotruttore di PokemonScontro
+	 *
+	 * @param context      context
+	 * @param attrs        attributi del layout
+	 * @param defStyleAttr stili del layout
 	 */
 	public PokemonScontro(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
@@ -44,8 +48,10 @@ public class PokemonScontro extends ConstraintLayout {
 	}
 
 	/**
-	 * @param context
-	 * @param attrs
+	 * Cotruttore di PokemonScontro
+	 *
+	 * @param context context
+	 * @param attrs   attributi del layout
 	 */
 	public PokemonScontro(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -85,7 +91,7 @@ public class PokemonScontro extends ConstraintLayout {
 	}
 
 	/**
-	 * setta cosa fare in caso di tocco sul pokemon
+	 * Setta cosa fare in caso di tocco sul pokemon
 	 *
 	 * @param tl
 	 */
@@ -94,7 +100,7 @@ public class PokemonScontro extends ConstraintLayout {
 	}
 
 	/**
-	 * fa partire l'animazione
+	 * Fa partire l'animazione
 	 *
 	 * @param onFinish Runnable da eseguire a fine animazione
 	 */
@@ -158,6 +164,5 @@ public class PokemonScontro extends ConstraintLayout {
 		});
 		life.startAnimation(lifeAnim);
 	}
-
 
 }

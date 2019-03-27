@@ -16,9 +16,11 @@ public class PokemonDetailsAnimation extends Animation {
 	private float to;
 
 	/**
-	 * @param detailsBar
-	 * @param from
-	 * @param to
+	 * Costruttore di PokemonDetailsAnimation
+	 *
+	 * @param detailsBar ConstraintLayout della barra della vita
+	 * @param from       numero da cui partire
+	 * @param to         numero a cui arrivare
 	 */
 	public PokemonDetailsAnimation(ConstraintLayout detailsBar, float from, float to) {
 		super();

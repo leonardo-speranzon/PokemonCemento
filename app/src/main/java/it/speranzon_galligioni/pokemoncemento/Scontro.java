@@ -31,11 +31,13 @@ public class Scontro {
 	private Random r;
 
 	/**
-	 * @param friendlyPok
-	 * @param enemyPok
-	 * @param onPlayerWin
-	 * @param onPlayerLose
-	 * @param context
+	 * Costruttore di Scontro
+	 *
+	 * @param friendlyPok  il proprio Pokemon
+	 * @param enemyPok     il Pokemon dell'aversario
+	 * @param onPlayerWin  azione in caso di vittoria
+	 * @param onPlayerLose azione in caso di sconfitta
+	 * @param context      context
 	 */
 	public Scontro(Pokemon friendlyPok, Pokemon enemyPok, Runnable onPlayerWin, Runnable onPlayerLose, Context context) {
 		this.onPlayerWin = onPlayerWin;
@@ -96,13 +98,12 @@ public class Scontro {
 				return true;
 			}
 		});
-
 	}
 
 	/**
-	 * attacco del nemico
+	 * Attacco nemico
 	 */
-	void enemyAttack() {
+	private void enemyAttack() {
 		Attack atck = enemyAttacks[r.nextInt(4)];
 		txtAttackName.setText(atck.toString().replace("_", " \n") + ' ');
 		txtAttackNameAnimator.start();

@@ -10,24 +10,28 @@ import it.speranzon_galligioni.pokemoncemento.GameCostants;
 public class GameElement extends AppCompatImageView {
 
 	/**
-	 * @param context
-	 * @param x
-	 * @param y
-	 * @param height
-	 * @param width
-	 * @param image
+	 * Costruttore di GameElement
+	 *
+	 * @param context context
+	 * @param x       coordinata X dell'ImageView
+	 * @param y       coordinata Y dell'ImageView
+	 * @param height  altezza dell'ImageView
+	 * @param width   largheza dell'ImageView
+	 * @param image   int della risorsa da visualizzare nell'ImageView
 	 */
 	public GameElement(Context context, int x, int y, int height, int width, int image) {
 		this(context, x, y, height, width, context.getDrawable(image));
 	}
 
 	/**
-	 * @param context
-	 * @param x
-	 * @param y
-	 * @param height
-	 * @param width
-	 * @param image
+	 * Costruttore di GameElement
+	 *
+	 * @param context context
+	 * @param x       coordinata X dell'ImageView
+	 * @param y       coordinata Y dell'ImageView
+	 * @param height  altezza dell'ImageView
+	 * @param width   largheza dell'ImageView
+	 * @param image   Drawable della risorsa da visualizzare nell'ImageView
 	 */
 	public GameElement(Context context, int x, int y, int height, int width, Drawable image) {
 		super(context);

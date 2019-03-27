@@ -9,21 +9,27 @@ public enum ObstacleTypes {
 	public final int drawableRes;
 
 	/**
-	 * @param res
+	 * Costruttore di ObstacleTypes
+	 *
+	 * @param res risorsa
 	 */
 	ObstacleTypes(int res) {
 		drawableRes = res;
 	}
 
 	/**
-	 * @return
+	 * Ritorna la risorsa
+	 *
+	 * @return la risorsa
 	 */
 	public int getDrawableRes() {
 		return drawableRes;
 	}
 
 	/**
-	 * @return
+	 * Ritorna ObstacleTypes di default
+	 *
+	 * @return ObstacleTypes di default
 	 */
 	public static ObstacleTypes getDefault() {
 		return WALL;

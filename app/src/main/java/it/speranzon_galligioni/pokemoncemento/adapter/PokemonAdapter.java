@@ -17,6 +17,12 @@ public class PokemonAdapter extends ArrayAdapter<Pokemon> {
 	private Context context;
 	private Pokemon[] pokemonList;
 
+	/**
+	 * Costruttore di PokemonAdapter
+	 *
+	 * @param context context
+	 * @param list    lista di pokemon disponibili
+	 */
 	public PokemonAdapter(@NonNull Context context, @NonNull Pokemon[] list) {
 		super(context, 0, list);
 		this.context = context;
@@ -27,7 +33,6 @@ public class PokemonAdapter extends ArrayAdapter<Pokemon> {
 		View listItem = convertView;
 		if (listItem == null)
 			listItem = LayoutInflater.from(context).inflate(R.layout.item_pokemon, parent, false);
-
 
 		Pokemon pk = pokemonList[position];
 

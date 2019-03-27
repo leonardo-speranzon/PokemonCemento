@@ -31,6 +31,23 @@ public class Game {
 	private Runnable onScontro, onWin;
 
 
+	/**
+	 * Costruttore di Game
+	 *
+	 * @param map           RelativeLayout che fa riferimento alla mappa
+	 * @param height        altezza della mappa
+	 * @param width         larghezza della mappa
+	 * @param playerInitX   coordinata X di inizio del Player
+	 * @param playerInitY   coordinata Y di inizio del Player
+	 * @param obstacles     lista degli ostacoli che possono esserci
+	 * @param trainers      lista degli allenatori avversari che possono esserci
+	 * @param player        Player
+	 * @param treasure      il baule finale
+	 * @param txtController istanza di TxtController
+	 * @param onScontro     azione quando avviene uno scontro
+	 * @param onWin         azione alla vittoria
+	 * @param context       context
+	 */
 	public Game(RelativeLayout map, int height, int width, int playerInitX, int playerInitY, List<Obstacle> obstacles, List<Trainer> trainers, Player player, Treasure treasure, TextController txtController, Runnable onScontro, Runnable onWin, Context context) {
 		this.obstacles = new ArrayList<>(obstacles);
 		this.trainers = new ArrayList<>(trainers);
@@ -65,7 +82,7 @@ public class Game {
 	}
 
 	/**
-	 * inizia lo spostamento del Player
+	 * Inizia lo spostamento del Player
 	 *
 	 * @param d direzione dello spostamento
 	 */
@@ -101,14 +118,18 @@ public class Game {
 		}
 	}
 
-
 	/**
-	 * ferma lo spostamento del Player
+	 * Ferma lo spostamento del Player
 	 */
 	public void stopMove() {
 		mustMove = false;
 	}
 
+	/**
+	 * Cambia la rotazione del Player
+	 *
+	 * @param d direzione del cambio
+	 */
 	public void changeDirection(Direction d) {
 		currentDirection = d;
 		mustMove = true;
@@ -122,9 +143,9 @@ public class Game {
 	/**
 	 * Muove il Player se esso è possibile
 	 *
-	 * @return <0:no non può muoversi
-	 * 0:in attesa
-	 * +1:può muoversi
+	 * @return <0: non può muoversi
+	 * 0: in attesa
+	 * +1: può muoversi
 	 */
 	public int canMove() {
 
@@ -161,7 +182,7 @@ public class Game {
 	}
 
 	/**
-	 * controlla se nella voluta direzione lo spostamento è impedito da ostacoli
+	 * Controlla se nella voluta direzione lo spostamento è impedito da ostacoli
 	 *
 	 * @param direction direzione voluta
 	 * @return collisione presente
@@ -181,7 +202,7 @@ public class Game {
 	}
 
 	/**
-	 * controlla che non il player non venga visto da allenatori
+	 * Controlla che non il player non venga visto da allenatori
 	 *
 	 * @return se visto da allenatore
 	 */
@@ -195,7 +216,7 @@ public class Game {
 	}
 
 	/**
-	 * controlla che nella voluta direzione il Player non esca dalla mappa
+	 * Controlla che nella voluta direzione il Player non esca dalla mappa
 	 *
 	 * @param direction direzione voluta
 	 * @return movimento valido
@@ -209,7 +230,7 @@ public class Game {
 	}
 
 	/**
-	 * muove il Player nella voluta direzione(con animazione)
+	 * Muove il Player nella voluta direzione(con animazione)
 	 *
 	 * @param direction direzione del movimento
 	 */
@@ -232,21 +253,15 @@ public class Game {
 
 					@Override
 					public void onAnimationEnd(Animator animation) {
-
 						//controlla che il Player non venga visto dagli altri allenatori
 						final Trainer t;
 						if ((t = checkTrainer()) != null) {
-
-
-
 							float distance;
 
 							//distance = deltaX + deltaY
 							distance = Math.abs(player.getX() - (map.getX() / GameCostants.BOX_SIZE + t.getX())) + Math.abs((player.getY()) - (map.getY() / GameCostants.BOX_SIZE + t.getY())) - 1;
 
-
-
-							if(trainerCanMove(t,t.getDirection(), (int) distance)) {
+							if (trainerCanMove(t, t.getDirection(), (int) distance)) {
 								stopMove();
 								player.block();
 								isMoving = false;
@@ -260,8 +275,6 @@ public class Game {
 								});
 								return;
 							}
-
-
 						}
 
 						isMoving = false;
@@ -270,7 +283,6 @@ public class Game {
 								player.setRotation(currentDirection.getDegrees());
 							movePlayer(currentDirection);
 						}
-
 					}
 
 					@Override
@@ -284,19 +296,37 @@ public class Game {
 				.start();
 
 	}
-	public boolean trainerCanMove(Trainer t,Direction dir,int distance){
-		Rect trR=new Rect(
-				(int)t.getX() + Math.min(dir.getX() * distance, 0),
-				(int)t.getY() + Math.min(dir.getY()* distance, 0),
-				(int)t.getX() + Math.max(dir.getX() * distance, 0)+1 ,
-				(int)t.getY() + Math.max(dir.getY() * distance, 0)+1);
-		for(Obstacle obs:obstacles) {
-			Rect obsR=new Rect((int)obs.getX(),(int)obs.getY(),(int)obs.getX()+obs.getCWidth(),(int)obs.getY()+obs.getCHeight());
+
+	/**
+	 * Se il Trainer dato si puù muovere in quella direzione per una data distanza
+	 *
+	 * @param t        trainer
+	 * @param dir      direzione
+	 * @param distance distanza
+	 * @return se il Trainer dato si puù muovere
+	 */
+	public boolean trainerCanMove(Trainer t, Direction dir, int distance) {
+		Rect trR = new Rect(
+				(int) t.getX() + Math.min(dir.getX() * distance, 0),
+				(int) t.getY() + Math.min(dir.getY() * distance, 0),
+				(int) t.getX() + Math.max(dir.getX() * distance, 0) + 1,
+				(int) t.getY() + Math.max(dir.getY() * distance, 0) + 1);
+		for (Obstacle obs : obstacles) {
+			Rect obsR = new Rect((int) obs.getX(), (int) obs.getY(), (int) obs.getX() + obs.getCWidth(), (int) obs.getY() + obs.getCHeight());
 			if (obsR.intersect(trR))
 				return false;
 		}
 		return true;
 	}
+
+	/**
+	 * Muove un Trainer dato in una direzione per una certa distanza
+	 *
+	 * @param t        Trainer
+	 * @param dir      direzione
+	 * @param distance distanza
+	 * @param onFinish azione al finire dell'animazione
+	 */
 	public void moveTrainer(Trainer t, Direction dir, int distance, Runnable onFinish) {
 		ViewPropertyAnimator trainerAnimation = t.animate().setDuration(distance * GameCostants.PLAYER_MOVEMENT_DURATION);
 		switch (dir) {
@@ -340,6 +370,9 @@ public class Game {
 		});
 	}
 
+	/**
+	 * Interazione del Player con un Trainer o con il Treasure
+	 */
 	public void interact() {
 		if (player.getX() + currentDirection.getX() == map.getX() / GameCostants.BOX_SIZE + treasure.getX() &&
 				player.getY() + currentDirection.getY() == map.getY() / GameCostants.BOX_SIZE + treasure.getY()) {
@@ -364,65 +397,82 @@ public class Game {
 
 
 	/**
-	 * @return
+	 * Ritorna la coordinata X della mappa già convertita
+	 *
+	 * @return X della mappa già convertita
 	 */
 	public float getX() {
 		return map.getX() / GameCostants.BOX_SIZE;
 	}
 
 	/**
-	 * @return
+	 * Ritorna la coordinata Y della mappa già convertita
+	 *
+	 * @return Y della mappa già convertita
 	 */
 	public float getY() {
 		return map.getY() / GameCostants.BOX_SIZE;
 	}
 
 	/**
-	 * @return
+	 * Imoposta la coordinata X della mappa
+	 *
+	 * @param x X della mappa
 	 */
 	public void setX(int x) {
 		map.setX(x * GameCostants.BOX_SIZE);
 	}
 
 	/**
-	 * @return
+	 * Imoposta la coordinata Y della mappa
+	 *
+	 * @param y Y della mappa
 	 */
 	public void setY(int y) {
 		map.setY(y * GameCostants.BOX_SIZE);
 	}
 
 	/**
-	 * @return
+	 * Ritorna la larghezza della mappa
+	 *
+	 * @return larghezza della mappa
 	 */
 	public int getWidth() {
 		return map.getWidth();
 	}
 
 	/**
-	 * @return
+	 * Ritorna l'altezza della mappa
+	 *
+	 * @return altezza della mappa
 	 */
 	public int getHeight() {
 		return map.getHeight();
 	}
 
 	/**
-	 * ritoran la direzione corrente
+	 * Ritorna la direzione corrente del player
 	 *
-	 * @return
+	 * @return direzione corrente del player
 	 */
 	public Direction getCurrentDirection() {
 		return currentDirection;
 	}
 
 	/**
-	 * ritorna se sta correndo
+	 * Ritorna se il player sta correndo
 	 *
-	 * @return
+	 * @return se il player sta correndo
 	 */
 	public boolean isRunning() {
 		return running;
 	}
 
+	/**
+	 * Imposta se il player sta correndo
+	 *
+	 * @param running se il player sta correndo
+	 */
 	public void setRunning(boolean running) {
 		this.running = running;
 	}
