@@ -27,7 +27,6 @@ import java.util.Random;
 
 import it.speranzon_galligioni.pokemoncemento.enums.Direction;
 import it.speranzon_galligioni.pokemoncemento.enums.Gender;
-import it.speranzon_galligioni.pokemoncemento.enums.ObstacleTypes;
 import it.speranzon_galligioni.pokemoncemento.enums.Pokemon;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Obstacle;
 import it.speranzon_galligioni.pokemoncemento.gameObject.Player;
@@ -191,9 +190,9 @@ public class MainActivity extends AppCompatActivity {
 						int w = xpp.getAttributeIntValue(null, "w", 1);
 						String type = xpp.getAttributeValue(null, "type");
 						if (type == null)
-							obstacles.add(new Obstacle(this, x, y, h, w, ObstacleTypes.getDefault()));
+							obstacles.add(new Obstacle(this, x, y, h, w));
 						else
-							obstacles.add(new Obstacle(this, x, y, h, w, ObstacleTypes.valueOf(type)));
+							obstacles.add(new Obstacle(this, x, y, h, w));
 
 					} else if (xpp.getName().equals("trainer")) {
 						int x = xpp.getAttributeIntValue(null, "x", 0);

@@ -2,7 +2,7 @@ package it.speranzon_galligioni.pokemoncemento.gameObject;
 
 import android.content.Context;
 
-import it.speranzon_galligioni.pokemoncemento.enums.ObstacleTypes;
+import it.speranzon_galligioni.pokemoncemento.R;
 
 public class Obstacle extends GameElement {
 
@@ -14,10 +14,9 @@ public class Obstacle extends GameElement {
 	 * @param y       coordinata Y (rispetto alla mappa)
 	 * @param height  Altezza
 	 * @param width   Larhgezza
-	 * @param type    tipo di ostacolo
 	 */
-	public Obstacle(Context context, int x, int y, int height, int width, ObstacleTypes type) {
-		super(context, x, y, height, width, type.drawableRes);
+	public Obstacle(Context context, int x, int y, int height, int width) {
+		super(context, x, y, height, width, R.drawable.obstacle_wall_repeat);
 	}
 
 
